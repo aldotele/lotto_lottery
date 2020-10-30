@@ -2,7 +2,7 @@
 # # three-levels project
 
 Level 1 of the project requires to develop a lotto ticket generator: the software will have to ask how many tickets to generate
-and, for each ticket: how many numbers (max. 10), the type of bet (ambo, terna, etc.) and the city of extraction ('ruota').
+and, for each ticket: how many numbers (max. 10), the type of bet (ambo, terna, etc.) and the city of extraction (ruota napoli, ruota firenze, etc.).
 
 There are two scripts for level 1. The 'lotto-ticket-generator.py' is the script that actually does generate the tickets, while
 the script 'lotto_table_lib.py' is part of a module from which a function will be imported, and it was developed to generate a visual
