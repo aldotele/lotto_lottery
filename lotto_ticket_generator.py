@@ -1,5 +1,5 @@
 import random
-from lotto_table_lib import print_lotto_bill
+from lotto.lotto_table_lib import print_lotto_bill
 
 
 # each instance of Ruota will have an attribute called numbers which is a list of all numbers between 1-90, shuffled
