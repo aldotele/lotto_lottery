@@ -1,7 +1,7 @@
 # lotto_lottery
 # # Level 1: Lotto Ticket Generator
 
-# # # Introduction
+# # # # # Introduction
 Level 1 of the project requires to develop a lotto ticket generator: the software will have to ask how many tickets to generate
 and, for each ticket: how many **numbers** (max. 10), the type of **bet** (ambata, ambo, terna, quaterna or cinquina) and the **city** of extraction (napoli, firenze, bari, cagliari, venezia, milano, roma, genova, palermo or torino).
 Check <https://www.sisal.it/lotto/come-si-gioca> for further information about the rules.
