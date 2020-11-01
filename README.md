@@ -13,15 +13,18 @@ tickets are gathered.
 
 I used three classes:
 
-- ***Ruota*** 
+* ***Ruota*** 
+
     It has an attribute *numbers* which is a list of all numbers (shuffled) between 1-90.
 
-- ***Ticket***
+* ***Ticket***
+
     Each instance refers to one single ticket. It is constructed on three main information: amount of numbers, bet, city.
     These informations will be stored separately into its three attributes.
     It uses an instance of *Ruota* in order to randomly generate the *n* numbers, extracting them from the range 1-90
 
-- ***TicketGenerator***
+* ***TicketGenerator***
+
     An instance of it can be considered as a final bill with *n* generated tickets. The numbers of tickets
     to generate is the *n* parameter of the class and will be passed by command line, handled with *argparse*.
     It has two attributes: the *tickets* attribute will store the *n* tickets as elements of a list. Each element of the list will be  an instance of *Ticket* with its own information (numbers, bet, city). 
