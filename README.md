@@ -11,6 +11,9 @@ There are **two scripts** for level 1:
 - *lotto-ticket-generator.py* is the script that actually does generate the tickets, while
 - *lotto_table_lib.py* a module inside the *lotto* package, from which a function will be imported, and it was developed to generate a **visual representation** of the lotto bill after each ticket is generated.
 
+### How to Launch
+The script can be launched through command line by writing *python lotto-ticket-generator.py* plus the amount of tickets we want to generate (min 1, max 5). For example typing *python lotto-ticket-generator.py 3* will generate a bill of three tickets.
+
 ### Classes
 I used three classes:
 
