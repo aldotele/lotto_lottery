@@ -1,4 +1,6 @@
 import random
+import argparse
+
 from lotto.lotto_table_lib import print_lotto_bill
 
 
@@ -22,13 +24,37 @@ class Ruota:
 # numbers does the ticket have, an attribute for the type of bet (ambo, terna, etc.) and an attribute for the
 # city to bet on (napoli, bari, milano, etc.)
 class Ticket:
-    def __init__(self, n, bet, city='tutte'):
+    def __init__(self, n, bet, city): 
+        # I use the following dictionary to perform an error checking
+        t_check = {'n': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'bet': ['ambata', 'ambo', 'terna', 'quaterna', 'cinquina'],\
+            'city': ['napoli', 'bari', 'cagliari', 'firenze', 'genova', 'milano', 'palermo', 'roma', 'torino', 'venezia']}
+        # error checking: amount of numbers and bet
+        if n not in t_check['n']:
+            print('the amount of numbers must be between 1 and 10.')
+            raise ValueError
+        if bet.lower() not in t_check['bet']:
+            print('please choose a bet type from this list: {}'.format(' '.join(t_check['bet'])))
+            raise ValueError
+        # error checking: I make sure the type of bet is coherent with the amount of numbers
+        bet = bet.lower()
+        if (n < 5 and bet in t_check['bet'][4:]) or (n < 4 and bet in t_check['bet'][3:]) or\
+        (n < 3 and bet in t_check['bet'][2:]) or (n < 2 and bet in t_check['bet'][1:]):
+            print('amount of numbers {} and bet {} are not valid together. Try again.'.format(n, bet.upper()))
+            raise ValueError  
+        # error checking: city
+        if city.lower() not in t_check['city']:
+            print('please choose a valid city.')
+            raise ValueError
+
         # the generator is a temporary variable that uses an instance of Ruota to put random numbers in the ticket
         generator = Ruota()
         all_numbers = generator.numbers
         self.numbers = []
-        self.bet = bet
-        self.city = city.upper()[:2]
+        self.bet = bet.upper() 
+        if city.lower() == 'roma':
+            self.city = 'RM'
+        else:  
+            self.city = city.upper()[:2]
         # the amount of numbers generated (per-ticket) will depend on the parameter n 
         for i in range(n):
             self.numbers.append(all_numbers.pop())
@@ -59,21 +85,29 @@ class TicketGenerator:
         # the following loop is used to populate the two previous attributes
         for ticket in range(1, n + 1):
             # For each ticket, the user will be asked to enter: amount of numbers, type of bet and city
-            numbers = int(input(f"ticket {ticket}. How many numbers? "))
-            bet = input(f"ticket {ticket}. Type of bet: ")
-            city = input(f"ticket {ticket}. Choose a city: ")
-            # the following is just a workaround: every city will appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
-            if city.lower() == 'roma':
-                city = 'RM'
-            # when I have all the info for a single ticket, I use them to make a Ticket instance
-            single_ticket = Ticket(numbers, bet, city)
-            # each single ticket instance will be added to the tickets attribute
-            self.tickets.append(single_ticket)
-            # then for each ticket instance, all relevant information will be also stored into a main dictionary
-            self.bill_info['nums'].append(single_ticket.numbers)
-            self.bill_info['bets'].append(single_ticket.bet.upper())
-            self.bill_info['cities'].append(single_ticket.city.upper()[:2])
+            # in case an error is encountered while generating one ticket, the program will give info and ask to rewrite that ticket
+            while True:
+                try:
+                    numbers = int(input(f"ticket {ticket}. How many numbers? "))
+                    bet = input(f"ticket {ticket}. Type of bet: ")
+                    city = input(f"ticket {ticket}. Choose a city: ")
     
+                    # when I have all the info for a single ticket, I use them to make a Ticket instance
+                    single_ticket = Ticket(numbers, bet, city)
+                    # each single ticket instance will be added to the tickets attribute
+                    self.tickets.append(single_ticket)
+                    # then for each ticket instance, all relevant information will be also stored into a main dictionary
+                    self.bill_info['nums'].append(single_ticket.numbers)
+                    self.bill_info['bets'].append(single_ticket.bet.upper())
+                    # I want the city to appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
+                    self.bill_info['cities'].append(single_ticket.city)
+                except ValueError:
+                    print('please rewrite current ticket.')
+                    continue
+                else:
+                    break
+    
+
     def __str__(self):
         # I use a function of my own library that I created (and imported) in order to print the lotto bill
         # the imported function takes a dictionary as parameter, in this case the dictionary is an attribute of my instance
@@ -85,14 +119,20 @@ class TicketGenerator:
             print(ticket)
         """
         return 'good luck :)'
-    
+
+
 def main():
-    # I ask the user how many tickets to generate inside the bill
-    n_of_tickets = int(input('how many tickets? '))
-    # I pass the number of tickets to generate as an argument of the instance TicketGenerator
-    my_bill = TicketGenerator(n_of_tickets)
+    
+    # I use argparse to parse arguments passed from CLI
+    parser = argparse.ArgumentParser(description="single lotto ticket")
+    parser.add_argument("n", type=int, help='amount of ticket or numbers', choices=[1, 2, 3, 4, 5])
+    args = parser.parse_args()
+    # the bill is an istance of TicketGenerator
+    my_bill = TicketGenerator(args.n)
     # printing an instance of TicketGenerator means calling its __str__ method which will display a visual bill
-    print(my_bill)
+    print(my_bill)  
+
+    #print(Ticket(3, 'quaterna', 'CAGLIARI')) 
 
 if __name__ == "__main__":
     main()
