@@ -12,7 +12,7 @@ There are **two scripts** for level 1:
 - *lotto_table_lib.py* a module inside the *lotto* package, from which a function will be imported, and it was developed to generate a **visual representation** of the lotto bill after each ticket is generated.
 
 ### Classes
-I used three classes:
+I used three *classes*:
 
 * **`Ruota`** 
 
@@ -20,7 +20,7 @@ I used three classes:
 
 * **`Ticket`**
 
-    Each instance refers to one single ticket. It is constructed on three main information: amount of numbers, bet, city.
+    Each *instance* refers to one single ticket. It is constructed on three main information: amount of numbers, bet, city.
     These informations will be stored separately into its three attributes.
     It uses an instance of `Ruota` in order to randomly generate the `n` numbers, extracting them from the range 1-90.
     Each ticket can be considered as a bill itself, but in the implementation I used the word `bill` to indicate a final bill where all the generated tickets are gathered. This leads to the third class below.
@@ -31,7 +31,7 @@ I used three classes:
     An instance of it can be considered as a final bill with `n` generated tickets. The numbers of tickets
     to generate is the `n` *parameter* of the class and will be passed by command line, handled with `argparse`.
 
-    It has two attributes: 
+    It has two *attributes*: 
     - the `tickets` attribute will store the `n` tickets as elements of a list. Each element of the list will be  an instance of `Ticket` with its own information (numbers, bet, city). These three information get iteratively asked to the user,
     for each ticket that the program is going to generate.
     - Instead, `the bill_info` attribute' is a *dictionary* that gathers in one place all information about all tickets, using three 
