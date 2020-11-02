@@ -9,10 +9,10 @@ Check <https://www.sisal.it/lotto/come-si-gioca> for further information about t
 ### Scripts
 There are **two scripts** for level 1:
 - *lotto-ticket-generator.py* is the script that actually does generate the tickets
-- *lotto_table_lib.py* is a module inside the *lotto* package, from which a function will be imported, and it was developed to generate a **visual representation** of the lotto bill after each ticket is generated.
+- *lotto_table_lib.py* is a module inside the *lotto* package, from which a function will be imported, and it was developed to produce a **visual representation** of the lotto bill after each ticket is generated.
 
 ### How to Launch
-The script can be launched through command line by writing **python lotto-ticket-generator.py** plus the amount of tickets we want to generate (min 1, max 5). For example typing **python lotto-ticket-generator.py 3** will generate a bill of three tickets.
+The script can be launched through command line by writing ***python lotto-ticket-generator.py*** plus the amount of tickets we want to generate (min 1, max 5). For example typing ***python lotto-ticket-generator.py 3*** will generate a bill of three tickets.
 
 ### Classes
 I used three *classes*:
@@ -23,10 +23,10 @@ I used three *classes*:
 
 * **`Ticket`**
 
-    Each *instance* refers to one single ticket. It is constructed on three main information: amount of numbers, bet, city.
-    These informations will be stored separately into its three attributes.
-    Before being stored, the three parameters have to pass the validation tests that are written inside the `validation` method.
-    This *Class* uses an instance of `Ruota` in order to randomly generate the `n` numbers, extracting them from the range 1-90.
+    Each *instance* refers to one single ticket. It is constructed on three main information: amount of numbers, bet, city.\
+    These informations will be stored separately into its three attributes.\
+    Before being stored, the three parameters have to pass the validation tests that are written inside the `validation` method.\
+    This *Class* uses an instance of `Ruota` in order to randomly generate the `n` numbers, extracting them from the range 1-90.\
     Each ticket can be considered as a bill itself, but in the implementation I used the word `bill` to indicate a final bill where all the generated tickets are gathered. This leads to the third class below.
 
 
@@ -39,8 +39,8 @@ I used three *classes*:
     - the `tickets` attribute will store the `n` tickets as elements of a list. Each element of the list will be an instance of `Ticket` with its own information (numbers, bet, city). These three information get iteratively asked to the user,
     for each ticket that the program is going to generate.
     - Instead, `the bill_info` attribute' is a *dictionary* which gathers in one place all information about all tickets, using three 
-    *keys*: `nums`, `bets` and `cities`. The value of each key is a *list* that gets the information from each single ticket systemically: for example, the first element of `nums` will be the *list* of numbers of ticket 1, the second element will be the *list* of numbers of ticket 2, while the first element of `bets` will be the bet chosen for ticket 1, and so on. In this way, the three information of the same ticket will have the same list index within the three different keys.
-    This *dictionary* will be passed as a *parameter* of a function which is imported from ***lotto_table_lib.py***, and that will be invoked in the `__str__` method of the `TicketGenerator` class in order to produce a **visual representation** of the bill.
+    *keys*: `nums`, `bets` and `cities`. The value of each key is a *list* that gets the information from each single ticket systemically: for example, the first element of `nums` will be the *list* of numbers of ticket 1, the second element will be the *list* of numbers of ticket 2, while the first element of `bets` will be the bet chosen for ticket 1, and so on. In this way, the three information of a same ticket will have the same list index inside each key.\
+    This *dictionary* will be passed as a *parameter* of a function which is imported from ***lotto_table_lib.py***, and that will be invoked in the `__str__` method of the `TicketGenerator` *Class*.
     
     When printing an *instance* of this *Class*, the program will use the imported function (and its dictionary parameter) to show a **visual representation** of the bill with every ticket (and their details) inside it, organized into rows and columns.
 
