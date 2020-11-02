@@ -25,41 +25,49 @@ class Ruota:
 # city to bet on (napoli, bari, milano, etc.)
 class Ticket:
     def __init__(self, n, bet, city): 
+        # I will construct the ticket only if all three parameters pass the tests that are written in the validation method.
+        if self.validation(n, bet, city):
+            # the generator is a temporary variable that uses an instance of Ruota to put random numbers in the ticket
+            generator = Ruota()
+            all_numbers = generator.numbers
+            self.numbers = []
+            self.bet = bet.upper() 
+            # I want the city to appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
+            # for every city except roma, I can just take the first two characters
+            if city.lower() == 'roma':
+                self.city = 'RM'
+            else:  
+                self.city = city.upper()[:2]
+            # the amount of numbers generated (per-ticket) will depend on the parameter n 
+            for i in range(n):
+                self.numbers.append(all_numbers.pop())
+
+
+    def validation(self, n, bet, city):
         # I use the following dictionary to perform an error checking
         t_check = {'n': [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], 'bet': ['ambata', 'ambo', 'terna', 'quaterna', 'cinquina'],\
             'city': ['napoli', 'bari', 'cagliari', 'firenze', 'genova', 'milano', 'palermo', 'roma', 'torino', 'venezia']}
         # error checking: amount of numbers and bet
         if n not in t_check['n']:
-            print('the amount of numbers must be between 1 and 10.')
-            raise ValueError
+            print('Amount of numbers is not valid: choose one between 1 and 10.')
+            raise ValueError('invalid amount of numbers')
         if bet.lower() not in t_check['bet']:
-            print('please choose a bet type from this list: {}'.format(' '.join(t_check['bet'])))
-            raise ValueError
+            print('Bet is not valid. Please choose a bet type from this list: {}'.format(' '.join(t_check['bet'])))
+            raise ValueError('invalid bet')
         # error checking: I make sure the type of bet is coherent with the amount of numbers
         bet = bet.lower()
         if (n < 5 and bet in t_check['bet'][4:]) or (n < 4 and bet in t_check['bet'][3:]) or\
         (n < 3 and bet in t_check['bet'][2:]) or (n < 2 and bet in t_check['bet'][1:]):
             print('amount of numbers {} and bet {} are not valid together. Try again.'.format(n, bet.upper()))
-            raise ValueError  
+            raise ValueError('invalid combination numbers-bet')  
         # error checking: city
         if city.lower() not in t_check['city']:
-            print('please choose a valid city.')
-            raise ValueError
+            print('City is not valid. Please choose a valid city from this list: {}.'.format(' '.join(t_check['city'])))
+            raise ValueError('invalid city')
 
-        # the generator is a temporary variable that uses an instance of Ruota to put random numbers in the ticket
-        generator = Ruota()
-        all_numbers = generator.numbers
-        self.numbers = []
-        self.bet = bet.upper() 
-        # I want the city to appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
-        # for every city except roma, I can just take the first two characters
-        if city.lower() == 'roma':
-            self.city = 'RM'
-        else:  
-            self.city = city.upper()[:2]
-        # the amount of numbers generated (per-ticket) will depend on the parameter n 
-        for i in range(n):
-            self.numbers.append(all_numbers.pop())
+        # if no ValueError is encountered, then all three parameters are validated
+        return True
+
 
     # when printed, the single ticket will show a string indicating numbers, city and type of bet
     # for example "TERNA bet on NA. Ticket >>> 5 38 14 87"
@@ -123,7 +131,7 @@ class TicketGenerator:
 
 
 def main():
-
+    
     # I use argparse to parse arguments passed from CLI
     parser = argparse.ArgumentParser(description="single lotto ticket")
     parser.add_argument("n", type=int, help='amount of ticket or numbers', choices=[1, 2, 3, 4, 5])
