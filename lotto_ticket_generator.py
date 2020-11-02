@@ -51,6 +51,8 @@ class Ticket:
         all_numbers = generator.numbers
         self.numbers = []
         self.bet = bet.upper() 
+        # I want the city to appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
+        # for every city except roma, I can just take the first two characters
         if city.lower() == 'roma':
             self.city = 'RM'
         else:  
@@ -99,7 +101,6 @@ class TicketGenerator:
                     # then for each ticket instance, all relevant information will be also stored into a main dictionary
                     self.bill_info['nums'].append(single_ticket.numbers)
                     self.bill_info['bets'].append(single_ticket.bet.upper())
-                    # I want the city to appear as a two-character string (Napoli --> NA, Roma --> RM, etc.)
                     self.bill_info['cities'].append(single_ticket.city)
                 except ValueError:
                     print('please rewrite current ticket.')
@@ -122,7 +123,7 @@ class TicketGenerator:
 
 
 def main():
-    
+
     # I use argparse to parse arguments passed from CLI
     parser = argparse.ArgumentParser(description="single lotto ticket")
     parser.add_argument("n", type=int, help='amount of ticket or numbers', choices=[1, 2, 3, 4, 5])
@@ -131,8 +132,7 @@ def main():
     my_bill = TicketGenerator(args.n)
     # printing an instance of TicketGenerator means calling its __str__ method which will display a visual bill
     print(my_bill)  
-
-    #print(Ticket(3, 'quaterna', 'CAGLIARI')) 
+    
 
 if __name__ == "__main__":
     main()
