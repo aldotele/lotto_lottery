@@ -11,7 +11,7 @@ class Ruota:
         for i in range(1, 91):
             self.numbers.append(i)
         random.shuffle(self.numbers)
-
+ 
     # when printing an instance of Ruota, all numbers shuffled will appear as a sequence. There may be no need of using it.
     def __str__(self):
         res = []
