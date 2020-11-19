@@ -1,25 +1,35 @@
 
 class BetType:
-    # la seguente è una proprietà della classe e non d'istanza
-    all_bets = {'ambata': 1, 'ambo': 2, 'terno': 3, 'quaterna': 4, 'cinquina': 5}
+    """
+    represents the type of bet
+    @attr bet_type is the chosen bet type
+    @attr min_numbers is the minimum amount of numbers needed to place that bet
+    """
+    all_bets = [None, 'ambata', 'ambo', 'terno', 'quaterna', 'cinquina']
 
     def __init__(self, bet_type):
-        # faccio in modo che scrivere "AMBO", "    amBo" oppure "Ambo   " equivalga a scrivere "ambo"
+        # making sure that writing "AMBO", " amBo " or "Ambo " is same as writing "ambo"
         bet_type = bet_type.strip().lower()
-        if self.is_bet_valid(bet_type):
+        if BetType.is_bet_valid(bet_type):
+            bet_type = bet_type
             self.bet_type = bet_type
-            self.minimum_to_bet = BetType.all_bets[bet_type]
+            self.min_numbers = BetType.all_bets.index(bet_type)
+        else:
+            return None
 
-
-    def is_bet_valid(self, bet_type):
+    @staticmethod
+    def is_bet_valid(bet_type):
+        bet_type = bet_type.strip().lower()
         if bet_type in BetType.all_bets:
             return True
         else:
-            raise ValueError('bet is not valid.\nPlease type one of the following bets ---> {}'.format(' '.join(BetType.all_bets)))
+            print('NOT VALID: bet type must be spelled correctly.')
+            return False
 
 
 # tests
 if __name__ == '__main__':
-
-    mybet = BetType('    AmB')
+    #print(BetType.is_bet_valid('ambo'))
+    mybet = BetType('TERno     ')
     print(mybet.bet_type)
+    print('minimum numbers to place: {}'.format(mybet.min_numbers))

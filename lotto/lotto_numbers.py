@@ -1,11 +1,12 @@
 import random 
 
 
-# ogni istanza di questa classe avrà come attributo una lista di numeri da 1 a 90, mischiati
-# la classe può essere utilizzata per fare tutte le operazioni del gioco del lotto: generazione numeri biglietti ed estrazione
-
-
-class fullRuota:
+class FullRuota:
+    """
+    represents a starting "Ruota" with all numbers 1-90
+    it can be used both to generate random numbers for tickets and for the official 5-numbers extraction
+    @attr numbers contains all numbers (shuffled)
+    """
     def __init__(self):
         self.numbers = []
         for i in range(1, 91):
@@ -14,39 +15,56 @@ class fullRuota:
 
 
 class NumbersForTicket:
+    """
+    represents the series of numbers inside a ticket
+    @attr numbers will store the given amount of numbers, that can be chosen or be generated randomly
+    """
     def __init__(self, amount, numbers=''):
         self.numbers = []
-        if self.validation(amount, numbers):
+        if NumbersForTicket.validation(amount, numbers):
             if not numbers:
-                from_ruota = fullRuota()
+                # if numbers are not specified, the class will use an instance of FullRuota just to generate random numbers
+                from_ruota = FullRuota()
                 for i in range(amount):
                     self.numbers.append(from_ruota.numbers.pop())
             else:
                 self.numbers += numbers
+        else:
+            return None
 
-
-    def validation(self, amount, numbers):
+    @staticmethod
+    def validation(amount, numbers=''):
+        # making sure the amount of numbers to generate is between 1 and 10
         if amount < 1 or amount > 10:
-            raise ValueError('amount of numbers is not valid.\nPlease choose an amount between 1 and 10')
-        
+            print('NOT VALID: amount of numbers must be between 1 and 10')
+            return False
+
+        # making sure that the amount of chosen numbers corresponds to the previously stated amount       
         if numbers != '' and len(numbers) != amount:
             if len(numbers) > amount:
-                raise ValueError('amount of numbers placed for bet is too high')
+                print('NOT VALID: amount of numbers placed for bet is too high')
+                return False
             elif len(numbers) < amount:
-                raise ValueError('amount of numbers placed for bet is too low')
+                print('NOT VALID: amount of numbers placed for bet is too low')
+                return False
 
+        # making sure that each number in the chosen sequence is both unique (no repetitions) and in range 1-90 
         if numbers:
             i = 1
             for number in numbers:
                 
                 if number < 1 or number > 90:
-                    raise ValueError('all placed numbers must be between 1 and 90')
+                    print('NOT VALID: all placed numbers must be between 1 and 90')
+                    return False
                 if number in numbers[i:]:
-                    raise ValueError('all placed numbers must be unique')
+                    print('NOT VALID: all placed numbers must be unique')
+                    return False
+
                 i += 1
 
         return True
         
 
 if __name__ == '__main__':
-    print(NumbersForTicket(4, [3, 5, 8, 77]).numbers)
+    NumbersForTicket(4, [34, 56])
+    NumbersForTicket(2, [26, 77])

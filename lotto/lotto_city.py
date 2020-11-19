@@ -1,23 +1,31 @@
 
 class City:
-    # la seguente è una proprietà della classe e non dell'istanza
+    """
+    represents the city aka the "ruota" of extraction
+    @attr city is one of the 10 allowed cities
+    """
     all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia']
 
     def __init__(self, city):
-        # faccio in modo che "ROMA", "roma", "   roma", "  rOmA   " etc. corrispondano tutte a "Roma" 
+        # making sure that writing "ROMA", "roma" and "  rOmA   " is the same as writing "Roma" 
         city = city.strip().capitalize()
-        if self.is_city_valid(city):
+        if City.is_city_valid(city):
             self.city = city
         else:
-            raise ValueError('city not valid.\nPlease type one of the following cities ---> {}'.format(' '.join(City.all_cities)))
-
-    def is_city_valid(self, city):
+            return None
+            
+    @staticmethod
+    def is_city_valid(city):
+        city = city.strip().capitalize()
         if city in City.all_cities:
             return True
         else:
+            print('NOT VALID: city must be spelled correctly')
             return False
+
 
 # tests
 if __name__ == '__main__':
-    mycity = City('milan')
-    print(mycity.city)
+    mycity = City('Milano')
+    print(City.is_city_valid('MIlano'))
+    #print(mycity.city)

@@ -63,7 +63,7 @@ def print_footer(bill):
     print('|')
 
     for i in range(n):
-        print('| ruota {}'.format(bill['cities'][i]) + ' ', end='')
+        print('| {}'.format(bill['cities'][i]) + ' '*(9 - len(bill['cities'][i])), end='')
     print('|')
 
     do_n_times(print_beam, n)
