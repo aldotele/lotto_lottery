@@ -34,6 +34,7 @@ class NumbersForTicket:
 
     @staticmethod
     def validation(amount, numbers=''):
+        amount = int(amount)
         # making sure the amount of numbers to generate is between 1 and 10
         if amount < 1 or amount > 10:
             print('NOT VALID: amount of numbers must be between 1 and 10')
