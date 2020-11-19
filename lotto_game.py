@@ -29,7 +29,7 @@ def main():
     else:
         pass
 
-    print("Let's get started!")
+    print("Let's get started!")   
     lotto_bill = play_lotto(args.n)
     print()
     print(lotto_bill)
