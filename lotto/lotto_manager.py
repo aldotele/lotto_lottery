@@ -24,12 +24,13 @@ class LottoManager:
         print('TICKET {}'.format(t))
 
         # AMOUNT OF NUMBERS TO PLACE
-        amount = int(input('How many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: '))
+        amount = input('How many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: ')
         while True:
-            if NumbersForTicket.validation(amount):
+            if amount.isdigit() and NumbersForTicket.validation(amount):
+                amount = int(amount)                
                 break
             else:
-                amount = int(input('how many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: '))
+                amount = input('how many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: ')
         
         print()
 
