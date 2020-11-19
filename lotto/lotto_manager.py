@@ -24,17 +24,18 @@ class LottoManager:
         print('TICKET {}'.format(t))
 
         # AMOUNT OF NUMBERS TO PLACE
-        amount = int(input('How many numbers? '))
+        amount = int(input('How many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: '))
         while True:
             if NumbersForTicket.validation(amount):
                 break
             else:
-                amount = int(input('how many numbers? '))
+                amount = int(input('how many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: '))
         
         print()
 
         # NUMBERS TO PLACE: it can be a random generation or a chosen sequence of numbers
-        numbers = input('Which numbers?\nWrite your numbers followed by a whitespace or leave empty for random numbers: ')
+        numbers = input('Which numbers? [Write a sequence of numbers (whitespace between them) or leave empty for random numbers]\
+            \nType numbers or press ENTER for random numbers: ')
         while True:
             if numbers:
                 numbers = numbers.split()
@@ -43,12 +44,12 @@ class LottoManager:
             if NumbersForTicket.validation(amount, numbers):
                 break
             else:
-                numbers = input('Try again or press ENTER for random numbers: ')
+                numbers = input('Try again your sequence or press ENTER for random numbers: ')
 
         print()
 
         # TYPE OF BET: the program will automatically show the allowed bets based on the amount of numbers
-        bet = input('Which bet?\nChoose one of the following --> {}: '.format(BetType.all_bets[1:amount+1]))
+        bet = input('Which bet? {}\nType your bet here: '.format(BetType.all_bets[1:amount+1]))
         while True:
             # double validation check: the bet must be spelled correctly as well as coherent with the amount of numbers
             if BetType.is_bet_valid(bet):
@@ -62,17 +63,17 @@ class LottoManager:
                         break
                     bet = choice                    
             else:
-                bet = input('Try again. Choose one of the following --> {}: '.format(BetType.all_bets[1:amount+1]))
+                bet = input('Try again. Type your bet here: ')
 
         print()
 
         # CITY 
-        city = input('Which city? {}\nChoose one: '.format(' '.join(City.all_cities)))
+        city = input('Which city? {}\nType a city here: '.format(City.all_cities))
         while True:
             if City.is_city_valid(city):
                 break
             else:
-                city = input('Allowed cities --> {}\nTry again: '.format(' '.join(City.all_cities)))
+                city = input('Allowed cities --> {}\nTry again. Type a city here: '.format(' '.join(City.all_cities)))
             
         print()
 
@@ -126,6 +127,7 @@ class LottoManager:
 
     def __str__(self):
         d_print = self.bill_printer()
+        print('Here is your bill ...')
         print_lotto_bill(d_print)
         return 'Good Luck :)' 
 

@@ -14,27 +14,20 @@ def play_lotto(tickets_amount):
 
 
 def main():
-    ap = argparse.ArgumentParser(description='single Lotto ticket')
-    ap.add_argument("-n", type=int, help='amount of tickets', choices=[1, 2, 3, 4, 5])
+    ap = argparse.ArgumentParser(description='Lotto bill with one or more tickets')
+    ap.add_argument("n", type=int, help='amount of tickets', choices=[1, 2, 3, 4, 5])
+    ap.add_argument('-v', '--verbose', help='introduction message', action='store_true')
     args = ap.parse_args()
+    
+    if args.verbose:
+        print('ITALIAN LOTTERY\nYou have chosen to create {} Lotto tickets\nLet\'s get started!'.format(args.n))
+    else:
+        pass
+
     lotto_bill = play_lotto(args.n)
+    print()
     print(lotto_bill)
 
 
 if __name__ == '__main__':
     main()
-
-
-
-"""
-def main():
-    num = int(input('enter amount: '))
-    output = play_lotto(num)
-    print()
-    print('Here is your bill...')
-    print(output)
-
-
-if __name__ == '__main__':
-    main()
-"""
