@@ -21,6 +21,7 @@ def main():
     
     print('ITALIAN LOTTERY\nYou have chosen to create {} Lotto tickets'.format(args.n))
 
+    # if the optional argument is specified, a larger introduction will show up
     if args.verbose:
         print('You can place a minimum of 1 and a maximum of 10 unique numbers per ticket.')
         print('Each number must be between 1 and 90. You can choose them or generate a random sequence.')
@@ -30,6 +31,9 @@ def main():
         pass
 
     print("Let's get started!")   
+
+    # the lotto_bill variable will store an instance of LottoManager
+    # such instance will represent a Lotto bill object, with a list of tickets inside its tickets attribute
     lotto_bill = play_lotto(args.n)
     print()
     print(lotto_bill)
