@@ -19,11 +19,17 @@ def main():
     ap.add_argument('-v', '--verbose', help='introduction message', action='store_true')
     args = ap.parse_args()
     
+    print('ITALIAN LOTTERY\nYou have chosen to create {} Lotto tickets'.format(args.n))
+
     if args.verbose:
-        print('ITALIAN LOTTERY\nYou have chosen to create {} Lotto tickets\nLet\'s get started!'.format(args.n))
+        print('You can place a minimum of 1 and a maximum of 10 unique numbers per ticket.')
+        print('Each number must be between 1 and 90. You can choose them or generate a random sequence.')
+        print('For each ticket, you will be asked to enter a bet type, which must be coherent with the amount of numbers.')
+        print('For each ticket, you will be asked to choose a city of extraction.')
     else:
         pass
 
+    print("Let's get started!")
     lotto_bill = play_lotto(args.n)
     print()
     print(lotto_bill)

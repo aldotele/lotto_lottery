@@ -34,17 +34,42 @@ class LottoManager:
         print()
 
         # NUMBERS TO PLACE: it can be a random generation or a chosen sequence of numbers
-        numbers = input('Which numbers? [Write a sequence of numbers (whitespace between them) or leave empty for random numbers]\
-            \nType numbers or press ENTER for random numbers: ')
-        while True:
-            if numbers:
-                numbers = numbers.split()
-                for i in range(len(numbers)):
-                    numbers[i] = int(numbers[i])
-            if NumbersForTicket.validation(amount, numbers):
-                break
-            else:
-                numbers = input('Try again your sequence or press ENTER for random numbers: ')
+        numbers_choice = input('Which numbers?\n1 - random numbers\n2 - choose numbers\nType here: ')
+        while numbers_choice != '1' and numbers_choice != '2':
+            numbers_choice = input('Which numbers?\n1 - random numbers\n2 - choose numbers\nType here: ')
+                      
+        if numbers_choice == '1':
+            # if the choice is to generate random numbers, numbers will stay empty
+            random_numbers = NumbersForTicket(amount).numbers
+            while True:
+                print()
+                print('generated numbers: {}'.format(random_numbers))
+                print()
+                check_confirmation = input('Do you like these numbers?\n1 - Confirm\n0 - Regenerate\nType here: ')
+                if check_confirmation == '1':
+                    numbers = random_numbers
+                    break
+                elif check_confirmation == '0':
+                    random_numbers = NumbersForTicket(amount).numbers
+
+        elif numbers_choice == '2':
+            while True:
+                print()
+                print('write below your {} numbers one by one ...'.format(amount))
+                chosen_numbers = []
+                try:
+                    for n in range(1, amount + 1):
+                        number = input('number: ')
+                        chosen_numbers.append(int(number))
+
+                    if NumbersForTicket.validation(amount, chosen_numbers):
+                        numbers = chosen_numbers
+                        break 
+
+                except:
+                    print('error: each number must be a unique integer between 1-90.\nTry again.')
+                    
+                 
 
         print()
 
@@ -57,7 +82,7 @@ class LottoManager:
                     break
                 else:
                     # if chosen bet is not coherent, the user can retry or type zero to restart the ticket from scratch
-                    choice = input('Enter an allowed bet or press 0 to restart ticket: ')
+                    choice = input('Enter an allowed bet or press 0 to restart ticket\nType here: ')
                     if choice == '0':
                         LottoManager.ticket_creator(t)
                         break
@@ -73,20 +98,22 @@ class LottoManager:
             if City.is_city_valid(city):
                 break
             else:
-                city = input('Allowed cities --> {}\nTry again. Type a city here: '.format(' '.join(City.all_cities)))
+                city = input('Try again. Type a city here: ')
             
         print()
 
         # TICKET CREATION ATTEMPT
-        ticket = Ticket(amount, bet, city, numbers)
+        ticket_to_confirm = Ticket(amount, bet, city, numbers)
         print()
         # checking confirmation: if ticket is confirmed, it is also created
         # otherwise the process will restart by asking again all ticket info 
-        if LottoManager.ticket_confirmator(ticket, t):
+        if LottoManager.ticket_confirmator(ticket_to_confirm, t):
+            confirmed_ticket = ticket_to_confirm
             print('TICKET {} was created successfully!'.format(t))
-            return ticket
+            return confirmed_ticket
         else:
-            LottoManager.ticket_creator(t)  
+            # using recursion to restart the ticket creation: it wouldn't work without the return
+            return LottoManager.ticket_creator(t)  
 
     @staticmethod
     def ticket_confirmator(ticket, t):
