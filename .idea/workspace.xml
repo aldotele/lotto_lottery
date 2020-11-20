@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="dfacbb9c-b426-45bb-925f-c511a1d36c49" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/lotto/calcoli.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto/lotto_bet.py" beforeDir="false" afterPath="$PROJECT_DIR$/lotto/lotto_bet.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto/lotto_city.py" beforeDir="false" afterPath="$PROJECT_DIR$/lotto/lotto_city.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto/lotto_numbers.py" beforeDir="false" afterPath="$PROJECT_DIR$/lotto/lotto_numbers.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto/lotto_table_lib.py" beforeDir="false" afterPath="$PROJECT_DIR$/lotto/lotto_table_lib.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto/lotto_ticket.py" beforeDir="false" afterPath="$PROJECT_DIR$/lotto/lotto_ticket.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lotto_manager.py" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="1kQ3FkUEX0J3di3oYocewnVrQB1" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../python_workbook" />
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="dfacbb9c-b426-45bb-925f-c511a1d36c49" name="Default Changelist" comment="" />
+      <created>1605618886589</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1605618886589</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="oldMeFiltersMigrated" value="true" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="549" y="167" key="FileChooserDialogImpl" timestamp="1605687477157">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="167" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1605687477157" />
+  </component>
+</project>
