@@ -83,11 +83,7 @@ class LottoManager:
                     break
                 else:
                     # if chosen bet is not coherent, the user can retry or type zero to restart the ticket from scratch
-                    choice = input('Enter an allowed bet or press 0 to restart ticket\nType here: ')
-                    if choice == '0':
-                        LottoManager.ticket_creator(t)
-                        break
-                    bet = choice                    
+                    bet = input('Please enter an allowed bet.\nType here: ')                   
             else:
                 bet = input('Try again. Type your bet here: ')
 
