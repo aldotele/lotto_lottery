@@ -17,30 +17,37 @@ class FullRuota:
 class NumbersForTicket:
     """
     represents the series of numbers inside a ticket
-    @attr numbers will store the given amount of numbers, that can be chosen or be generated randomly
+    @attr numbers will store the given amount of numbers, which is generated randomly
     """
-    def __init__(self, amount, numbers=''):
+    def __init__(self, amount):
         self.numbers = []
-        if NumbersForTicket.validation(amount, numbers):
-            if not numbers:
-                # if numbers are not specified, the class will use an instance of FullRuota just to generate random numbers
-                from_ruota = FullRuota()
-                for i in range(amount):
-                    self.numbers.append(from_ruota.numbers.pop())
-            else:
-                self.numbers += numbers
+        if NumbersForTicket.is_amount_valid(amount):
+            from_ruota = FullRuota()
+            for i in range(amount):
+                self.numbers.append(from_ruota.numbers.pop())
         else:
             return None
 
+
     @staticmethod
-    def validation(amount, numbers=''):
-        amount = int(amount)
-        # making sure the amount of numbers to generate is between 1 and 10
-        if amount < 1 or amount > 10:
-            print('NOT VALID: amount of numbers must be between 1 and 10')
+    def is_amount_valid(amount):
+        try:
+            amount = int(amount)
+            if not 1 <= amount <= 10:
+                print('NOT VALID: amount must be between 1 and 10.')
+                return False
+        except:
+            print('NOT VALID: amount must be a number.')
             return False
 
-        # making sure that the amount of chosen numbers corresponds to the previously stated amount       
+        return True
+
+
+    # ---- TO IMPLEMENT FOR WHEN CHOOSING OWN NUMBERS
+    """
+    @staticmethod
+    def validation(amount, numbers=''):
+        # making sure that the amount of chosen numbers corresponds to the previously stated amount    
         if numbers != '' and len(numbers) != amount:
             if len(numbers) > amount:
                 print('NOT VALID: amount of numbers placed for bet is too high')
@@ -62,10 +69,14 @@ class NumbersForTicket:
                     return False
 
                 i += 1
-
+    
         return True
+        """
         
 
 if __name__ == '__main__':
-    NumbersForTicket(4, [34, 56])
-    NumbersForTicket(2, [26, 77])
+    NumbersForTicket.is_amount_valid(4) # valid
+    NumbersForTicket.is_amount_valid('4') # valid
+    NumbersForTicket.is_amount_valid('quattro') # not valid
+    NumbersForTicket.is_amount_valid(-2) # not valid
+    NumbersForTicket.is_amount_valid(11) # not valid
