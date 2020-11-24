@@ -72,7 +72,17 @@ class NumbersForTicket:
     
         return True
         """
-        
+
+class NumbersForExtraction:
+    """
+    represents 5 extracted numbers
+    """      
+    def __init__(self):
+        self.numbers = []
+        from_ruota = FullRuota()
+        for i in range(5):
+            self.numbers.append(from_ruota.numbers.pop())
+
 
 if __name__ == '__main__':
     NumbersForTicket.is_amount_valid(4) # valid
@@ -80,3 +90,5 @@ if __name__ == '__main__':
     NumbersForTicket.is_amount_valid('quattro') # not valid
     NumbersForTicket.is_amount_valid(-2) # not valid
     NumbersForTicket.is_amount_valid(11) # not valid
+    print()
+    print(NumbersForExtraction().numbers)
