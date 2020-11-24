@@ -62,7 +62,7 @@ class LottoManager:
 
     @staticmethod
     def choose_numbers(amount):
-        # the function is used to generate random sequences of numbers until the user choose the one he likes
+        # the function is used to generate random sequences of numbers until the user chooses the one he likes
         print('generating your {} numbers ...'.format(amount))
         random_numbers = NumbersForTicket(amount).numbers
         while True:
@@ -82,7 +82,7 @@ class LottoManager:
 
     @staticmethod   
     def choose_bet(amount, numbers):
-        # TYPE OF BET: the program will automatically show the allowed bets based on the amount of numbers
+        # the program will automatically show the allowed bets based on the placed amount of numbers
         bet = input('Which bet? {}\nType here: '.format(BetType.all_bets[1:amount+1]))
         while True:
             # double validation check: the bet must be spelled correctly as well as be coherent with the amount of numbers
@@ -115,7 +115,7 @@ class LottoManager:
     def ticket_confirmator(ticket, t):
         """
         represents a summary of the chosen inputs for the current ticket
-        it asks the user a confirmation of the ticket by pressing ENTER
+        it asks the user a confirmation by typing 1 
         otherwise the user can type 0 to restart the ticket
         """
         print('<<< Ticket {} info >>>:'.format(t))
@@ -160,8 +160,4 @@ if __name__ == '__main__':
     n = int(input('how many tickets? '))
     mybill = LottoManager(n)
     print(mybill)
-
-    print()
     
-    for ticket in mybill.tickets:
-        print(ticket)

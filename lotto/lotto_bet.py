@@ -1,4 +1,3 @@
-
 class BetType:
     """
     represents the type of bet
@@ -16,6 +15,7 @@ class BetType:
             self.min_numbers = BetType.all_bets.index(bet_type)
         else:
             return None
+
 
     @staticmethod
     def is_bet_valid(bet_type):

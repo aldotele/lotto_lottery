@@ -1,4 +1,3 @@
-
 class City:
     """
     represents the city aka the "ruota" of extraction
@@ -14,6 +13,7 @@ class City:
         else:
             return None
             
+
     @staticmethod
     def is_city_valid(city):
         city = city.strip().capitalize()

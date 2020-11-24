@@ -7,7 +7,7 @@ from lotto.lotto_table_lib import print_lotto_bill
 class Ticket:
     """
     represents a lotto ticket
-    @attr numbers is an object with a sequence of chosen/random numbers stored as an attribute
+    @attr numbers is an object with a sequence of random numbers stored as an attribute
     @attr bet_type is an object with a bet type stored as an attribute
     @attr city is an object with a city store as an attribute
     """
@@ -19,10 +19,9 @@ class Ticket:
         else:
             return None   
 
-    @staticmethod
-    # the method checks two possible types of "incoherence" inside the ticket info
-    def check_coherence(numbers_amount, bet_type):
 
+    @staticmethod
+    def check_coherence(numbers_amount, bet_type):
         # case of incoherence between numbers_amount and bet_type
         # e.g. if the player places 3 numbers, he/she cannot bet on a "cinquina", which requires a minumum of 5 numbers
         bet_check = bet_type.strip().lower()     
@@ -39,9 +38,7 @@ class Ticket:
 
 if __name__ == '__main__':
     ticket1 = Ticket(3, 'terno', 'MILANO')
-    #print(ticket1)
-
     ticket2 = Ticket(1, 'ambo', ' NAPOLI   ')
-    #print(ticket2)
+    
 
 
