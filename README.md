@@ -4,18 +4,20 @@
 ### Introduction
 Level 1 of the project requires to develop a lotto tickets generator: the software will have to generate from 1 to 5 tickets.<br>
 For each ticket, the software will ask:  
-- the **amount of numbers** to place and, based on the previous information, will give the user the opportunity to specify **which numbers** to place (each number must be between 1 and 90 and appear once in the sequence). Alternatively, the program will generate random sequences of numbers until the user confirms one.
-- the **type of bet** (ambata, ambo, terna, quaterna or cinquina). The bet must be coherent with the chosen amount of numbers. For example, if the user places 3 numbers, the bet choices will be limited to ambata, ambo or terno. If the user places 5 number, he/she will be able to choose whichever bet.
+- the **amount of numbers** to place and, based on the previous information, the program will generate random sequences of numbers until the user confirms one.
+- the **type of bet** (ambata, ambo, terna, quaterna or cinquina). The bet must be coherent with the chosen amount of numbers. For example, if the user places 3 numbers, the bet choices will be limited to ambata, ambo or terno. If the user places 5 number, he/she will be able to choose whichever bet. The program will automatically show the allowed bets based on the amount of numbers.
 - the **city** of extraction (napoli, firenze, bari, cagliari, venezia, milano, roma, genova, palermo or torino).<br>
 Check <https://www.sisal.it/lotto/come-si-gioca> for further information about the rules.
 
 ### How to Launch
-The entry point *lotto_game.py* script can be launched through command line by specifying the amount of tickets to generate for the `n` argument. For example, writing ***python lotto_game.py 3*** will generate a bill of three tickets.<br> 
+The entry point *lotto_game.py* script can be launched through command line by specifying the amount of tickets to generate (1-5) for the `n` argument. For example, writing ***python lotto_game.py 3*** will generate a bill of three tickets.<br> 
+An optional argument `-v` (or `--verbose`) can be added through command line in order to view instructions about how to play. In this case,
+the command to launch the script would be ***python lotto_game.py 3 -v*** or ***python lotto_game.py 3 --verbose***
 After launching the script, the program will start constructing each ticket by asking the user all the information about each ticket.
 
 ### Classes and lotto Package
 The project is built using an OOP approach.<br>
-Several *Classes* were used. All used *Classes* are inside their own *module*, and all modules are inside the **lotto package**.
+Several *Classes* were used. Each *Class* is inside its own *module*, and all modules are inside the **lotto package**.
 
 Three main Classes were created in order to store lotto ticket informations:
 
@@ -41,8 +43,8 @@ Another Class was created to build a single ticket object.
     It has three *attributes* that will correspond to instances of the three previously defined Classes: an object will represent its **numbers**, another one its **bet type** and the last one its **city** of extraction.  
 
     This Class uses a further validation method that checks the "coherence" of the information that are supposed to build the ticket:<br>
-    firstly, the stated amount of numbers must correspond to the amount of numbers that are present inside the chosen sequence (this applies only when numbers are chosen and not randomly generated);<br>
-    secondly, the bet type must be coherent with the amount of numbers.
+    the bet type must be coherent with the amount of numbers, which means there will be a minimum amount of numbers for each bet: at least
+    1 number for ambata, 2 for ambo, 3 for terno, 4 for quaterna and 5 for cinquina.
 
 A last Class was created in order to build the *business logic* behind the program:
 
