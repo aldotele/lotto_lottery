@@ -68,4 +68,4 @@ Output samples (new layouts in Level 2):
 
 *Lotto Ticket Result: LOST*
 
-![Lotto bill](docs/lotto-ticket-winning-sample.JPG)
+![Lotto bill](docs/lotto-winning-sample.JPG)
