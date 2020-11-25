@@ -62,10 +62,10 @@ Output samples (new layouts in Level 2):
 
 ![Lotto bill](docs/lotto-extraction-sample.JPG)
 
-*Lotto Ticket Result: WIN*
-
-![Lotto bill](docs/lotto-ticket-result-sample.JPG)
-
 *Lotto Ticket Result: LOST*
+
+![Lotto bill](docs/lotto-lost-sample.JPG)
+
+*Lotto Ticket Result: WIN*
 
 ![Lotto bill](docs/lotto-winning-sample.JPG)
