@@ -8,9 +8,9 @@ def play_lotto(tickets_amount):
     it returns an object which represents a lotto bill
     the object will have as attribute a list of single Ticket objects (even one Ticket object only)
     """
-    bill = LottoManager(tickets_amount)
+    lotto_game = LottoManager(tickets_amount)
 
-    return bill
+    return lotto_game
 
 
 def main():
@@ -33,10 +33,10 @@ def main():
     print("Let's get started!")   
 
     # the lotto_bill variable will store an instance of LottoManager
-    # such instance will represent a Lotto bill object, with a list of tickets inside its tickets attribute
-    lotto_bill = play_lotto(args.n)
+    # such instance will represent a Lotto game object, with a list of tickets inside its tickets attribute and an extraction attribute
+    lotto_game = play_lotto(args.n)
     print()
-    print(lotto_bill)
+    print(lotto_game)
 
 
 if __name__ == '__main__':

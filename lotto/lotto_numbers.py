@@ -19,12 +19,17 @@ class NumbersForTicket:
     represents the series of numbers inside a ticket
     @attr numbers will store the given amount of numbers, which is generated randomly
     """
-    def __init__(self, amount):
+    def __init__(self, amount, numbers=''):
         self.numbers = []
         if NumbersForTicket.is_amount_valid(amount):
-            from_ruota = FullRuota()
-            for i in range(amount):
-                self.numbers.append(from_ruota.numbers.pop())
+            # if numbers are not specified, they are randomly generated from a full ruota
+            if not numbers:
+                from_ruota = FullRuota()
+                for i in range(amount):
+                    self.numbers.append(from_ruota.numbers.pop())
+            # otherwise the numbers will be the ones specified in the sequence
+            else:
+                self.numbers = numbers
         else:
             return None
 
@@ -92,3 +97,5 @@ if __name__ == '__main__':
     NumbersForTicket.is_amount_valid(11) # not valid
     print()
     print(NumbersForExtraction().numbers)
+
+    print(NumbersForTicket(3, [3, 8, 9]).numbers)

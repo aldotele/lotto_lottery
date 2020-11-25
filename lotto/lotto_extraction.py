@@ -1,5 +1,6 @@
 from lotto.lotto_city import City
 from lotto.lotto_numbers import NumbersForExtraction
+from lotto.lotto_tables import print_extraction
 
 class Extraction:
     all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia']
@@ -11,21 +12,9 @@ class Extraction:
             self.extraction[city] = NumbersForExtraction().numbers
 
 
-    def print_extraction(self):
-        print('+' + '-'*33 + '+')
-        for city in self.extraction:
-            int_sequence = self.extraction[city]
-            str_sequence = [str(el) for el in int_sequence]
-            sequence = '  '.join(str_sequence)
-            print('|%10s' % city, end = '  ')
-            for number in int_sequence:
-                print('%.2d' % number, end='  ')
-            print(' |')
-        print('+' + '-'*33 + '+')
-
-
     def __str__(self):
-        self.print_extraction()
+        extraction_dictionary = self.extraction
+        print_extraction(extraction_dictionary)
         return ''
 
 

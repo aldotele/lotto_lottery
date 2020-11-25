@@ -22,7 +22,7 @@ def print_row(width, string):
     print('|' + ' '*(margin//2) + string + ' '*(margin//2) + '|')
 
 
-def print_ticket(ticket, ticket_n, width=50):
+def print_ticket(ticket, ticket_n=' ', width=50):
     # making sure the width is even in order to improve layout
     if width % 2 != 0:
         width -= 1
@@ -54,3 +54,16 @@ def print_ticket(ticket, ticket_n, width=50):
     print_row(width, numbers_string)
 
     print_beam(width)
+
+
+def print_extraction(extraction):
+    print('+' + '-'*33 + '+')
+    for city in extraction:
+        int_sequence = extraction[city]
+        #str_sequence = [str(el) for el in int_sequence]
+        print('|%10s' % city, end = '  ')
+        for number in int_sequence:
+            print('%.2d' % number, end='  ')
+        print(' |')
+    print('+' + '-'*33 + '+')
+

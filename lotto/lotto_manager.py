@@ -1,14 +1,18 @@
 from lotto.lotto_numbers import NumbersForTicket
 from lotto.lotto_bet import BetType
 from lotto.lotto_city import City
-from lotto.lotto_table_lib import print_lotto_bill
 from lotto.lotto_ticket import Ticket
+from lotto.lotto_extraction import Extraction
+from lotto.lotto_tables import print_ticket, print_extraction
+
+from datetime import datetime
 
 
 class LottoManager:
     """
     represents the business logic of the program
     @attr tickets is a list with a series of Ticket objects (even one only)
+    @attr extraction is an extraction object
     """
     def __init__(self, tickets_amount):
         self.tickets = []
@@ -17,6 +21,8 @@ class LottoManager:
             # each Ticket instance is created by invoking a static method, and asking all ticket info to the user
             ticket = LottoManager.ticket_creator(t)
             self.tickets.append(ticket)
+        #the object will have an extraction attribute with cities as keys and extraction numbers as values
+        self.extraction = Extraction()
 
 
     @staticmethod
@@ -34,7 +40,7 @@ class LottoManager:
         print()
 
         # TICKET CREATION ATTEMPT
-        ticket_to_confirm = Ticket(amount, bet, city)
+        ticket_to_confirm = Ticket(amount, bet, city, numbers)
         print()
         # checking confirmation: if ticket is confirmed, it is also created
         # otherwise the process will restart by asking again all ticket info 
@@ -70,14 +76,12 @@ class LottoManager:
             print()
             check_confirmation = input('Do you like the above numbers?\n1 - Confirm\n0 - Regenerate\nType here: ')
             if check_confirmation == '1':
-                numbers = random_numbers
-                break
+                return random_numbers
+                
             elif check_confirmation == '0':
                 print()
                 print('generating your {} numbers ...'.format(amount))
                 random_numbers = NumbersForTicket(amount).numbers
-            
-        return numbers
 
 
     @staticmethod   
@@ -132,32 +136,88 @@ class LottoManager:
                 return False
       
 
-    def bill_printer(self):
+    @staticmethod
+    def print_tickets(bill_of_tickets):
         """
-        it builds and returns a dictionary with all tickets' info
-        the dictionary will then be passed as argument of an imported function
-        the function will print a visual representation of the bill, with all tickets (even a single one) gathered 
-        such function is invoked in the __str__ method
+        it print a series of tickets one by one, or the only ticket if the bill includes one ticket only
+        @param bill_of_tickets is a series of Ticket objects
         """
-        bill_info = {'nums': [], 'bets': [], 'cities': []}
+        ticket_number = 0
+
+        for ticket in bill_of_tickets:
+            ticket_number += 1
+            print()
+            # the imported function is invoked to print the ticket object
+            print_ticket(ticket, ticket_number)
+            print('Good Luck :)')
+
+
+    @staticmethod      
+    def check_extraction(extraction):
+        """
+        it displays the full extraction table
+        @param extraction has to be an extraction object, with an extraction dictionary as attribute
+        """
+        date = str(datetime.today()).split()[0]
+        print('Extraction of {}'.format(date))
+        # when printing the extraction object, its __str__ method will be invoked (check Extraction class in its own module)
+        print(extraction)
+
+    
+    @staticmethod
+    def is_ticket_winning(ticket, extraction):
+        """
+        it checks if a single ticket object resulted to have won
+        @param ticket is a Ticket object
+        @param extraction is an Extraction object
+        """
+        city = ticket.city.city
+        extraction_to_check = extraction.extraction[city]
+        ticket_numbers = ticket.numbers.numbers
+        equal_numbers = 0
+        for number in ticket_numbers:
+            if number in extraction_to_check:
+                equal_numbers += 1
+        # each bet type has a minimum numbers to play, which is also the minimum numbers to match in order to win
+        if equal_numbers < ticket.bet_type.min_numbers:
+            return False
+        else:
+            return True
+
+ 
+    def check_results(self):
+        """
+        this method will check each ticket's result within the bill of tickets of the LottoManager object
+        """
+        ticket_number = 0
 
         for ticket in self.tickets:
-            bill_info['nums'].append(ticket.numbers.numbers)
-            bill_info['bets'].append(ticket.bet_type.bet_type)
-            bill_info['cities'].append(ticket.city.city)
-
-        return bill_info
+            ticket_number += 1
+            print_ticket(ticket, ticket_number)
+            print('{} extraction'.format(ticket.city.city), end=' ')
+            print(self.extraction.extraction[ticket.city.city])
+            print()
+            if LottoManager.is_ticket_winning(ticket, self.extraction):
+                print('Congratulations: YOU WON !')
+            else:
+                print('YOU LOST :(')
+            print()
 
 
     def __str__(self):
-        d_print = self.bill_printer()
-        print('Here is your bill ...')
-        print_lotto_bill(d_print)
-        return 'Good Luck :)' 
+        LottoManager.print_tickets(self.tickets)
+        print()
+        extraction_button = input('press ENTER to check extraction')
+        print()
+        LottoManager.check_extraction(self.extraction)
+        print()
+        results_button = input('press ENTER to check results')
+        print()
+        self.check_results()
+        return ''
 
-
-if __name__ == '__main__':
-    n = int(input('how many tickets? '))
-    mybill = LottoManager(n)
-    print(mybill)
     
+if __name__ == '__main__':
+    lotto_game = LottoManager(3)
+    print(lotto_game)
+

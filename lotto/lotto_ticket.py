@@ -1,19 +1,20 @@
 from lotto.lotto_numbers import NumbersForTicket
 from lotto.lotto_bet import BetType
 from lotto.lotto_city import City
-from lotto.lotto_table_lib import print_lotto_bill
+from lotto.lotto_tables import print_ticket
 
 
 class Ticket:
     """
     represents a lotto ticket
-    @attr numbers is an object with a sequence of random numbers stored as an attribute
+    @attr numbers is an object with a sequence of random (if not specified) numbers stored as an attribute
     @attr bet_type is an object with a bet type stored as an attribute
     @attr city is an object with a city store as an attribute
     """
-    def __init__(self, numbers_amount, bet_type, city):
+    def __init__(self, numbers_amount, bet_type, city, numbers=''):
         if Ticket.check_coherence(numbers_amount, bet_type):
-            self.numbers = NumbersForTicket(numbers_amount)
+            # if a sequence of chosen numbers is passed, that will be the sequence, otherwise numbers are randomly generated
+            self.numbers = NumbersForTicket(numbers_amount, numbers)
             self.bet_type = BetType(bet_type)
             self.city = City(city)
         else:
@@ -36,9 +37,10 @@ class Ticket:
 
 
 
+
+
 if __name__ == '__main__':
     ticket1 = Ticket(3, 'terno', 'MILANO')
-    ticket2 = Ticket(1, 'ambo', ' NAPOLI   ')
-    
+    ticket2 = Ticket(1, 'ambo', ' NAPOLI   ')    
 
 
