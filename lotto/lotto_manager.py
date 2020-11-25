@@ -172,17 +172,29 @@ class LottoManager:
         @param extraction is an Extraction object
         """
         city = ticket.city.city
-        extraction_to_check = extraction.extraction[city]
         ticket_numbers = ticket.numbers.numbers
-        equal_numbers = 0
-        for number in ticket_numbers:
-            if number in extraction_to_check:
-                equal_numbers += 1
-        # each bet type has a minimum numbers to play, which is also the minimum numbers to match in order to win
-        if equal_numbers < ticket.bet_type.min_numbers:
-            return False
+        matching_numbers = 0
+
+        if city != 'Tutte':
+            city_extraction = extraction.extraction[city]
+            for number in ticket_numbers:
+                if number in city_extraction:
+                    matching_numbers += 1
+            # each bet type has a minimum numbers to play, which is also the minimum numbers to match in order to win
+            if matching_numbers < ticket.bet_type.min_numbers:
+                return False
+            else:
+                return True
         else:
-            return True
+            for city_extraction in extraction.extraction:
+                for number in ticket_numbers:
+                    if number in extraction.extraction[city_extraction]:
+                        matching_numbers += 1
+                if matching_numbers < ticket.bet_type.min_numbers:
+                    matching_numbers = 0
+                else: 
+                    return True
+            
 
  
     def check_results(self):
@@ -194,8 +206,9 @@ class LottoManager:
         for ticket in self.tickets:
             ticket_number += 1
             print_ticket(ticket, ticket_number)
-            print('{} extraction'.format(ticket.city.city), end=' ')
-            print(self.extraction.extraction[ticket.city.city])
+            if ticket.city.city != 'Tutte':
+                print('{} extraction'.format(ticket.city.city), end=' ')
+                print(self.extraction.extraction[ticket.city.city])
             print()
             if LottoManager.is_ticket_winning(ticket, self.extraction):
                 print('Congratulations: YOU WON !')

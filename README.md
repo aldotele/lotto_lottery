@@ -5,7 +5,9 @@
 Level 2 of the project requires to use fake extractions and check whether each ticket (generated in Level 1 **Lotto Tickets Generator**) 
 resulted in winning or losing.
 - a ticket results in **winning** when there is a least amount of matching numbers between the ticket's numbers and the numbers
-extracted in its city. The least amount of matching numbers corresponds to the minumum amount of numbers to play for a specific
+extracted in its city. (note that for a bet on *Tutte*, namely all cities, the ticket's numbers will be checked against each city's
+extraction one by one).
+The least amount of matching numbers corresponds to the minumum amount of numbers to play for a specific
 bet type.<br>
 For example, a ticket with an *ambata* bet on *Roma* will result in winning if there will be at least 1 matching number
 between tickets' numbers and Roma's extraction numbers. <br>
@@ -60,6 +62,10 @@ Output samples (new layouts in Level 2):
 
 ![Lotto bill](docs/lotto-extraction-sample.JPG)
 
-*Lotto Ticket Result*
+*Lotto Ticket Result: WIN*
 
 ![Lotto bill](docs/lotto-ticket-result-sample.JPG)
+
+*Lotto Ticket Result: LOST*
+
+![Lotto bill](docs/lotto-ticket-winning-sample.JPG)

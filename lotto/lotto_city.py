@@ -3,7 +3,7 @@ class City:
     represents the city aka the "ruota" of extraction
     @attr city is one of the 10 allowed cities
     """
-    all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia']
+    all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia', 'Tutte']
 
     def __init__(self, city):
         # making sure that writing "ROMA", "roma" and "  rOmA   " is the same as writing "Roma" 
