@@ -50,13 +50,16 @@ After printing each ticket, the program will ask to show the full extraction tab
 After showing the extraction table, the program will ask to check tickets' results. Tickets will be printed again and their city's
 extraction numbers will be shown below them in order to easily check the result. A result message will also be shown.
 
-Output samples (new layouts in Level2 2):
+Output samples (new layouts in Level 2):
 
 *Lotto Ticket*
+
 ![Lotto bill](docs/lotto-ticket-sample.JPG)
 
 *Lotto Extraction*
+
 ![Lotto bill](docs/lotto-extraction-sample.JPG)
 
 *Lotto Ticket Result*
+
 ![Lotto bill](docs/lotto-ticket-result-sample.JPG)
