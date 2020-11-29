@@ -1,31 +1,29 @@
 class City:
     """
     represents the city aka the "ruota" of extraction
-    @attr city is one of the 10 allowed cities
+    @attr city_code is a numeric value which the city ("ruota") is associated to
     """
-    all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia', 'Tutte']
+    all_cities = {1: 'Bari', 2: 'Cagliari', 3: 'Firenze', 4: 'Genova', 5: 'Milano', 6: 'Napoli', 7: 'Palermo',\
+         8: 'Roma', 9: 'Torino', 10: 'Venezia', 11: 'Tutte'}
 
-    def __init__(self, city):
-        # making sure that writing "ROMA", "roma" and "  rOmA   " is the same as writing "Roma" 
-        city = city.strip().capitalize()
-        if City.is_city_valid(city):
-            self.city = city
+    def __init__(self, city_code):
+        if City.is_city_valid(city_code):
+            self.city = City.all_cities[city_code]
         else:
             return None
             
 
     @staticmethod
-    def is_city_valid(city):
-        city = city.strip().capitalize()
-        if city in City.all_cities:
+    def is_city_valid(city_code):
+        if city_code in City.all_cities:
             return True
         else:
-            print('NOT VALID: city must be spelled correctly')
+            print('NOT VALID: choose a number between 1 and 11')
             return False
 
 
 # tests
 if __name__ == '__main__':
-    mycity = City('Milano')
-    print(City.is_city_valid('MIlano'))
-    #print(mycity.city)
+    mycity = City(11)
+    print(City.is_city_valid('Bari')) # not valid
+    print(mycity.city)
