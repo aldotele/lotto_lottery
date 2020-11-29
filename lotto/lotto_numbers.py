@@ -48,36 +48,6 @@ class NumbersForTicket:
         return True
 
 
-    # ---- TO IMPLEMENT FOR WHEN CHOOSING OWN NUMBERS
-    """
-    @staticmethod
-    def validation(amount, numbers=''):
-        # making sure that the amount of chosen numbers corresponds to the previously stated amount    
-        if numbers != '' and len(numbers) != amount:
-            if len(numbers) > amount:
-                print('NOT VALID: amount of numbers placed for bet is too high')
-                return False
-            elif len(numbers) < amount:
-                print('NOT VALID: amount of numbers placed for bet is too low')
-                return False
-
-        # making sure that each number in the chosen sequence is both unique (no repetitions) and in range 1-90 
-        if numbers:
-            i = 1
-            for number in numbers:
-                
-                if number < 1 or number > 90:
-                    print('NOT VALID: all placed numbers must be between 1 and 90')
-                    return False
-                if number in numbers[i:]:
-                    print('NOT VALID: all placed numbers must be unique')
-                    return False
-
-                i += 1
-    
-        return True
-        """
-
 class NumbersForExtraction:
     """
     represents 5 extracted numbers
