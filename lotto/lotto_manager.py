@@ -28,17 +28,19 @@ class LottoManager:
     @staticmethod
     def ticket_creator(t):
         print()
-        print('TICKET {}'.format(t))
+        print('--- TICKET {} ---'.format(t))
+        print()
 
-        amount = LottoManager.choose_amount()
-        print()
-        numbers = LottoManager.choose_numbers(amount)
-        print()
-        bet = LottoManager.choose_bet(amount, numbers)
+        bet = LottoManager.choose_bet()
         print()
         city = LottoManager.choose_city()
         print()
-
+        # the amount of numbers that a player can place will depend on the chosen bet
+        amount = LottoManager.choose_amount(bet)    
+        print()
+        numbers = LottoManager.choose_numbers(amount)
+        print()
+    
         # TICKET CREATION ATTEMPT
         ticket_to_confirm = Ticket(amount, bet, city, numbers)
         print()
@@ -53,15 +55,71 @@ class LottoManager:
             return LottoManager.ticket_creator(t)  
 
 
-    @staticmethod
-    def choose_amount():
-        amount = input('How many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: ')
+    @staticmethod   
+    def choose_bet():
+        print('*** BET CHOICE ***')
+        print()
+        BetType.print_allowed_bets()
+        bet = input('\nEnter a number: ')
         while True:
-            if NumbersForTicket.is_amount_valid(amount):
+            try:
+                bet = int(bet)
+                if 1 <= bet <= 5:
+                    break
+                else:
+                    print('NOT VALID. Enter a number between 1 and 5.')
+                    bet = input('Try again: ')       
+            except:
+                print('NOT VALID. Enter the number associated to the bet type.')
+                bet = input('Try again: ')
+
+        return bet
+
+    
+    @staticmethod
+    def choose_city():
+        print('*** CITY CHOICE ***')
+        print()
+        for key in City.all_cities:
+            print('{} : {}'.format(key, City.all_cities[key]))
+        
+        city = input('\nEnter a number: ')
+        while True:
+            try:
+                city = int(city)
+                if 1 <= city <= 11:
+                    break
+                else:
+                    print('NOT VALID. Enter a number between 1 and 11.')
+                    city = input('Try again: ')
+            except:
+                print('NOT VALID. Enter the number associated to the city.')
+                city = input('Try again: ')
+
+        return city
+
+
+    @staticmethod
+    def choose_amount(bet):
+        print('*** NUMBERS CHOICE ***')
+        print()
+        print('Choose an amount of numbers to place:')
+        for n in range(bet, 11):
+            print(n, end='  ')
+        print()
+        amount = input('\nHow many numbers? ')
+
+        while True:
+            try:
                 amount = int(amount)
-                break
-            else:
-                amount = input('How many numbers? [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]\nType here: ')
+                if bet <= amount <= 10:
+                    break
+                else:
+                    print('NOT VALID. Enter an amount of numbers between {} and 10.'.format(bet))
+                    amount = input('How many numbers? ')
+            except:
+                print('NOT VALID. Enter an amount of numbers between {} and 10.'.format(bet))
+                amount = input('How many numbers? ')
 
         return amount
 
@@ -84,37 +142,6 @@ class LottoManager:
                 random_numbers = NumbersForTicket(amount).numbers
 
 
-    @staticmethod   
-    def choose_bet(amount, numbers):
-        # the program will automatically show the allowed bets based on the placed amount of numbers
-        bet = input('Which bet? {}\nType here: '.format(BetType.all_bets[1:amount+1]))
-        while True:
-            # double validation check: the bet must be spelled correctly as well as be coherent with the amount of numbers
-            if BetType.is_bet_valid(bet):
-                if Ticket.check_coherence(amount, bet):
-                    break
-                else:
-                    # if chosen bet is not coherent, the user will be informed and asked to retry
-                    bet = input('Which bet? {}\nType here: '.format(BetType.all_bets[1:amount+1]))    
-            # if chosen bet is not spelled correctly, the user will be informed and asked to retry              
-            else:
-                bet = input('Which bet? {}\nType here: '.format(BetType.all_bets[1:amount+1]))
-
-        return bet
-
-
-    @staticmethod
-    def choose_city():
-        city = input('Which city? {}\nType a city here: '.format(City.all_cities))
-        while True:
-            if City.is_city_valid(city):
-                break
-            else:
-                city = input('Try again. Type a city here: ')
-
-        return city
-
-
     @staticmethod
     def ticket_confirmator(ticket, t):
         """
@@ -122,7 +149,7 @@ class LottoManager:
         it asks the user a confirmation by typing 1 
         otherwise the user can type 0 to restart the ticket
         """
-        print('<<< Ticket {} info >>>:'.format(t))
+        print('<<< Ticket {} summary >>>:'.format(t))
         print('placed NUMBERS: {}'.format(ticket.numbers.numbers))
         print('BET type: {}'.format(ticket.bet_type.bet_type))
         print('CITY: {}'.format(ticket.city.city))
@@ -139,7 +166,7 @@ class LottoManager:
     @staticmethod
     def print_tickets(bill_of_tickets):
         """
-        it print a series of tickets one by one, or the only ticket if the bill includes one ticket only
+        it prints a series of tickets one by one, or the only ticket if the bill includes one ticket only
         @param bill_of_tickets is a series of Ticket objects
         """
         ticket_number = 0
@@ -163,56 +190,79 @@ class LottoManager:
         # when printing the extraction object, its __str__ method will be invoked (check Extraction class in its own module)
         print(extraction)
 
-    
+
     @staticmethod
-    def is_ticket_winning(ticket, extraction):
+    def ticket_winning_combinations(ticket, extraction):
         """
-        it checks if a single ticket object resulted to have won
+        it checks if there are winning combinations within the ticket
         @param ticket is a Ticket object
         @param extraction is an Extraction object
+        return value is a dictionary with winning combinations if the ticket is winning
+        otherwise the method returns None (no winning combinations)
         """
         city = ticket.city.city
         ticket_numbers = ticket.numbers.numbers
-        matching_numbers = 0
+        winning_combinations = {}
 
+        # the logic of winning combinations changes depending of the choice of the city: "Tutte" or single cities
         if city != 'Tutte':
+            winning_combinations[city] = []
             city_extraction = extraction.extraction[city]
             for number in ticket_numbers:
                 if number in city_extraction:
-                    matching_numbers += 1
-            # each bet type has a minimum numbers to play, which is also the minimum numbers to match in order to win
-            if matching_numbers < ticket.bet_type.min_numbers:
-                return False
+                    winning_combinations[city].append(number)
+            # WINNING TICKET
+            if len(winning_combinations[city]) >= ticket.bet_type.min_numbers:
+                return winning_combinations
+            # LOSING TICKET: no winning combinations
             else:
-                return True
-        else:
+                return None
+    
+        elif city == 'Tutte':
+            matching_combinations = {}
             for city_extraction in extraction.extraction:
                 for number in ticket_numbers:
                     if number in extraction.extraction[city_extraction]:
-                        matching_numbers += 1
-                if matching_numbers < ticket.bet_type.min_numbers:
-                    matching_numbers = 0
-                else: 
-                    return True
-            
+                        if city_extraction not in matching_combinations:
+                            matching_combinations[city_extraction] = [number]
+                        else:
+                            matching_combinations[city_extraction].append(number)
+            for city in matching_combinations:
+                if len(matching_combinations[city]) >= ticket.bet_type.min_numbers:
+                    winning_combinations[city] = matching_combinations[city]
+            # WINNING TICKET
+            if winning_combinations != {}:
+                return winning_combinations
+            # LOSING TICKET: no winning combinations
+            else:
+                return None
 
- 
-    def check_results(self):
+
+    def show_results(self):
         """
-        this method will check each ticket's result within the bill of tickets of the LottoManager object
+        the method will display the results of the tickets (win or lose)
+        if ticket is winning, it will also display the winning combinations
         """
         ticket_number = 0
 
         for ticket in self.tickets:
             ticket_number += 1
             print_ticket(ticket, ticket_number)
+
             if ticket.city.city != 'Tutte':
                 print('{} extraction'.format(ticket.city.city), end=' ')
                 print(self.extraction.extraction[ticket.city.city])
-            print()
-            if LottoManager.is_ticket_winning(ticket, self.extraction):
+            #print()
+
+            ticket_win = LottoManager.ticket_winning_combinations(ticket, self.extraction)
+            if ticket_win:
                 print('Congratulations: YOU WON !')
-            else:
+                print()
+                print('winning combinations: ')
+                for city in ticket_win:
+                    print('{}: {}'.format(city, ticket_win[city]))
+
+            elif ticket_win == None:
                 print('YOU LOST :(')
             print()
 
@@ -226,11 +276,10 @@ class LottoManager:
         print()
         results_button = input('press ENTER to check results')
         print()
-        self.check_results()
+        self.show_results()
         return ''
 
     
 if __name__ == '__main__':
-    lotto_game = LottoManager(3)
+    lotto_game = LottoManager(2)
     print(lotto_game)
-
