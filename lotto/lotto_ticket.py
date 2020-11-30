@@ -1,6 +1,7 @@
 from lotto.lotto_numbers import NumbersForTicket
 from lotto.lotto_bet import BetType
 from lotto.lotto_city import City
+from lotto.lotto_money import Money
 from lotto.lotto_tables import print_ticket
 
 
@@ -11,12 +12,13 @@ class Ticket:
     @attr bet_type is an object with a bet type stored as an attribute
     @attr city is an object with a city store as an attribute
     """
-    def __init__(self, numbers_amount, bet_type, city, numbers=''):
+    def __init__(self, numbers_amount, bet_type, city, money, numbers=''):
         if Ticket.check_coherence(numbers_amount, bet_type):
-            # if a sequence of chosen numbers is passed, that will be the sequence, otherwise numbers are randomly generated
+            # if a sequence of numbers is not specified, numbers are randomly generated
             self.numbers = NumbersForTicket(numbers_amount, numbers)
             self.bet_type = BetType(bet_type)
             self.city = City(city)
+            self.money = Money(money)
         else:
             return None   
 
@@ -36,9 +38,13 @@ class Ticket:
 
  
 if __name__ == '__main__':
-    ticket = Ticket(2, 3, 9)
-    try:
-        print(ticket.numbers.numbers, ticket.city.city, ticket.bet_type.bet_type)
-    except:
-        pass
+    ticket = Ticket(numbers_amount=2, bet_type=3, city=9, money=1)  # not valid: 2 numbers and a terno bet
+    ticket = Ticket(numbers_amount=7, bet_type=3, city=6, money=0)  # not valid amount of money
+    ticket = Ticket(numbers_amount=7, bet_type=3, city=6, money=201)  # not valid amount of money
+    ticket = Ticket(numbers_amount=7, bet_type=3, city=6, money=201)  # valid
+
+
+
+
+
 

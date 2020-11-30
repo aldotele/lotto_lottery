@@ -53,6 +53,12 @@ def print_ticket(ticket, ticket_n=' ', width=50):
         numbers_string += ' '
     print_row(width, numbers_string)
 
+    print_row(width, '---')
+
+    # MONEY ROW
+    money_str = '€ %s' % ticket.money.amount
+    print_row(width, money_str)
+
     print_beam(width)
 
 

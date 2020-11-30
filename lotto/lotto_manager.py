@@ -3,6 +3,7 @@ from lotto.lotto_bet import BetType
 from lotto.lotto_city import City
 from lotto.lotto_ticket import Ticket
 from lotto.lotto_extraction import Extraction
+from lotto.lotto_money import Money
 from lotto.lotto_tables import print_ticket, print_extraction
 
 from datetime import datetime
@@ -40,9 +41,10 @@ class LottoManager:
         print()
         numbers = LottoManager.choose_numbers(amount)
         print()
+        money = LottoManager.choose_money()
     
         # TICKET CREATION ATTEMPT
-        ticket_to_confirm = Ticket(amount, bet, city, numbers)
+        ticket_to_confirm = Ticket(amount, bet, city, money, numbers)
         print()
         # checking confirmation: if ticket is confirmed, it is also created
         # otherwise the process will restart by asking again all ticket info 
@@ -143,6 +145,18 @@ class LottoManager:
 
 
     @staticmethod
+    def choose_money():
+        print('*** MONEY CHOICE ***')
+        amount = input('money bet: ')
+        while True:
+            if Money.is_amount_valid(amount):
+                amount = int(amount)
+                return amount
+            else:
+                amount = input('money bet: ')
+
+
+    @staticmethod
     def ticket_confirmator(ticket, t):
         """
         represents a summary of the chosen inputs for the current ticket
@@ -153,6 +167,7 @@ class LottoManager:
         print('placed NUMBERS: {}'.format(ticket.numbers.numbers))
         print('BET type: {}'.format(ticket.bet_type.bet_type))
         print('CITY: {}'.format(ticket.city.city))
+        print('MONEY bet: € {}'.format(ticket.money.amount))
 
         while True:
             print()
