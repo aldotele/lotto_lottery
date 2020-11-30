@@ -1,6 +1,6 @@
-from lotto.lotto_city import City
 from lotto.lotto_numbers import NumbersForExtraction
 from lotto.lotto_tables import print_extraction
+
 
 class Extraction:
     all_cities = ['Bari', 'Cagliari', 'Firenze', 'Genova', 'Milano', 'Napoli', 'Palermo', 'Roma', 'Torino', 'Venezia']
@@ -11,7 +11,6 @@ class Extraction:
             # to check
             self.extraction[city] = NumbersForExtraction().numbers
 
-
     def __str__(self):
         extraction_dictionary = self.extraction
         print_extraction(extraction_dictionary)
@@ -20,9 +19,6 @@ class Extraction:
 
 if __name__ == '__main__':
     extraction_test = Extraction()
-    print(extraction_test.extraction) # valid
+    print(extraction_test.extraction)  # valid
     print()
     print(extraction_test)
-
-
-        
