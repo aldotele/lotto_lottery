@@ -22,10 +22,10 @@ class BetType:
             if bet_code in BetType.all_bets:
                 return True
             else:
-                print('NOT VALID: choose a number between 1 and 5.')
+                print('NOT VALID: bet must be a number between 1 and 5.')
                 return False
         except:
-            print('NOT VALID: enter a number which corresponds to the bet type.')
+            print('NOT VALID: bet must be a number, not a string.')
             return False
 
 

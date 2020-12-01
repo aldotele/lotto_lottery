@@ -49,10 +49,10 @@ class NumbersForTicket:
             try:
                 amount = int(amount)
                 if not bet_code <= amount <= 10:
-                    print('NOT VALID: You are allowed to place from {} to 10 numbers.'.format(bet_code))
+                    print('NOT VALID: you are allowed to place from {} to 10 numbers.'.format(bet_code))
                     return False
             except:
-                print('NOT VALID: amount must be a number.')
+                print('NOT VALID: amount of numbers must be an integer.')
                 return False
 
         return True

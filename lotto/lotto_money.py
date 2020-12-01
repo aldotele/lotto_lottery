@@ -16,10 +16,10 @@ class Money:
             if 1 <= amount <= 200:
                 return True
             else:
-                print('NOT VALID. Amount of money must be between € 1 and € 200.')
+                print('NOT VALID: amount of money must be between € 1 and € 200.')
                 return False
         except:
-            print('NOT VALID. Amount of money must be a number.')
+            print('NOT VALID: amount of money must be a number.')
             return False
 
 

@@ -21,10 +21,10 @@ class City:
             if city_code in City.all_cities:
                 return True
             else:
-                print('NOT VALID: choose a number between 1 and 11.')
+                print('NOT VALID: city must be a number between 1 and 11.')
                 return False
         except:
-            print('NOT VALID: enter a number which corresponds to the city.')
+            print('NOT VALID: city must be a number, not a string.')
             return False
 
 
