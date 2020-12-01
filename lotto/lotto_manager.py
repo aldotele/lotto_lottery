@@ -4,6 +4,7 @@ from lotto.lotto_city import City
 from lotto.lotto_ticket import Ticket
 from lotto.lotto_extraction import Extraction
 from lotto.lotto_money import Money
+from lotto.lotto_prizes import Prizes
 from lotto.lotto_tables import print_ticket
 
 from datetime import datetime
@@ -24,7 +25,6 @@ class LottoManager:
             self.tickets.append(ticket)
         # the object will have an extraction attribute with cities as keys and extraction numbers as values
         self.extraction = Extraction()
-
 
     @staticmethod
     def ticket_creator(t):
@@ -54,8 +54,7 @@ class LottoManager:
             return confirmed_ticket
         else:
             # using recursion to restart the ticket creation. Note that the return is necessary
-            return LottoManager.ticket_creator(t)  
-
+            return LottoManager.ticket_creator(t)
 
     @staticmethod   
     def choose_bet():
@@ -69,7 +68,6 @@ class LottoManager:
                 return bet
             else:
                 bet = input('Enter a number: ')
-
     
     @staticmethod
     def choose_city():
@@ -84,7 +82,6 @@ class LottoManager:
             else:
                 city = input('Enter a number: ')
 
-
     @staticmethod
     def choose_amount(bet):
         print('*** NUMBERS CHOICE ***')
@@ -98,7 +95,6 @@ class LottoManager:
                 return amount
             else:
                 amount = input('How many numbers? ')
-
 
     @staticmethod
     def choose_numbers(amount):
@@ -117,7 +113,6 @@ class LottoManager:
                 print('generating your {} numbers ...'.format(amount))
                 random_numbers = NumbersForTicket(amount).numbers
 
-
     @staticmethod
     def choose_money():
         print('*** MONEY CHOICE ***')
@@ -128,7 +123,6 @@ class LottoManager:
                 return amount
             else:
                 amount = input('place amount of euro: ')
-
 
     @staticmethod
     def ticket_confirmator(ticket, t):
@@ -151,7 +145,6 @@ class LottoManager:
                 return True
             elif check_confirmation == '0':
                 return False
-      
 
     @staticmethod
     def print_tickets(bill_of_tickets):
@@ -168,7 +161,6 @@ class LottoManager:
             print_ticket(ticket, ticket_number)
             print('Good Luck :)')
 
-
     @staticmethod      
     def check_extraction(extraction):
         """
@@ -179,7 +171,6 @@ class LottoManager:
         print('Extraction of {}'.format(date))
         # when printing the extraction object, its __str__ method will be invoked (check Extraction class)
         print(extraction)
-
 
     @staticmethod
     def ticket_winning_combinations(ticket, extraction):
@@ -194,7 +185,7 @@ class LottoManager:
         ticket_numbers = ticket.numbers.numbers
         winning_combinations = {}
 
-        # the logic of winning combinations changes depending of the choice of the city: "Tutte" or single cities
+        # the logic of winning combinations changes depending on the choice of the city: "Tutte" or single cities
         if city != 'Tutte':
             winning_combinations[city] = []
             city_extraction = extraction.extraction[city]
@@ -227,34 +218,37 @@ class LottoManager:
             else:
                 return None
 
-
     def show_results(self):
         """
         the method will display the results of the tickets (win or lose)
-        if ticket is winning, it will also display the winning combinations
+        if ticket is winning, it will also display the winning combinations and the money win
         """
         ticket_number = 0
-
         for ticket in self.tickets:
             ticket_number += 1
             print_ticket(ticket, ticket_number)
-
+            # if bet is on a single city, that city's extraction will be displayed below
             if ticket.city.city != 'Tutte':
                 print('{} extraction'.format(ticket.city.city), end=' ')
                 print(self.extraction.extraction[ticket.city.city])
 
+            # invoking the method that returns potential winning combinations
+            # if there are no winning combinations, the variable will store None as a value
             ticket_win = LottoManager.ticket_winning_combinations(ticket, self.extraction)
+
+            # if ticket is winning, the program displays all relevant info about matched numbers and money win
             if ticket_win:
-                print('Congratulations: YOU WON !')
+                money_win = Prizes.compute_payout(ticket, ticket_win)
+                print('Congratulations: YOU WON € %.2f!' % money_win)
                 print()
                 print('winning combinations: ')
+                # displaying the winning combinations
                 for city in ticket_win:
                     print('{}: {}'.format(city, ticket_win[city]))
 
-            elif ticket_win == None:
+            elif ticket_win is None:
                 print('YOU LOST :(')
             print()
-
 
     def __str__(self):
         LottoManager.print_tickets(self.tickets)
