@@ -1,71 +1,67 @@
 # lotto_lottery
-## Level 2: Lotto Fake Extractions
+## Level 3: Lotto Calculate Prizes
 
 ### Introduction
-Level 2 of the project requires to use fake extractions and check whether each ticket (generated in Level 1 **Lotto Tickets Generator**) 
-resulted in winning or losing.
+Level 3 of the project implements a full lotto game by showing if tickets resulted to have won, and for winning
+tickets, it will calculate and display the net win 
+depending on: amount of numbers - bet type - city - money - matching numbers.<br>
+
+#### When is a ticket winning?
 - a ticket results in **winning** when there is a least amount of matching numbers between the ticket's numbers and the numbers
 extracted in its city. (note that for a bet on *Tutte*, namely all cities, the ticket's numbers will be checked against each city's
 extraction one by one).
-The least amount of matching numbers corresponds to the minumum amount of numbers to play for a specific
+The least amount of matching numbers corresponds to the minimum amount of numbers to play for a specific
 bet type.<br>
-For example, a ticket with an *ambata* bet on *Roma* will result in winning if there will be at least 1 matching number
-between tickets' numbers and Roma's extraction numbers. <br>
-Instead, a ticket with a *cinquina* bet on *Any* will result in winning if
-there will be at least 5 matching numbers between ticket's numbers and all cities' extraction numbers.
 
 Check <https://www.sisal.it/lotto/come-si-gioca> for further information about the rules.
 
+#### How is the net win of a winning ticket computed?
+- The computation is done by using a payout table and depends on the placed amount of numbers for 
+a specific bet type and city as well as on the amount of matching numbers that resulted from the extraction.
+From a gross payout, 8% of taxes will then be subtracted to obtain net payout.  
+The net win will be the net payout multiplied by the amount of money that was placed for bet.
+
+Check <https://www.estrazionedellotto.it/prontuario-vincite-lotto> for further information about prizes.
+
 
 ### How to Launch
-The entry point *lotto_game.py* script can be launched through command line by specifying the amount of tickets to generate (1-5) for the `n` argument. For example, writing ***python lotto_game.py 3*** will generate a bill of three tickets.<br> 
-An optional argument `-v` (or `--verbose`) can be added through command line in order to view instructions about how to play. In this case,
-the command to launch the script would be ***python lotto_game.py 3 -v*** or ***python lotto_game.py 3 --verbose***
+The entry point *lotto_game.py* script can be launched either:
+- through command line, by specifying the amount of tickets to generate (1-5) for the `-n` argument.
+ For example, writing ***python lotto_game.py -n 3*** will generate a bill of three tickets.<br> 
+An optional argument `-v` (or `--verbose`) can be added through command line in order to view instructions
+ about how to play. 
+ In this case, the command to launch the script would be
+  ***python lotto_game.py -n 3 -v*** or ***python lotto_game.py -n 3 --verbose***
+ - in the case of absence of command line arguments, by running the script and entering
+  the amount of tickets to generate as an input.
 
 
-### Extraction Classes and lotto Package
-New *Classes* are used to handle extractions, and can be accessed from *lotto_extraction* and *lotto_numbers* modules inside the 
-**lotto package**:
+### Classes and lotto Package
+The program is built using an OOP approach.<br>
+A series of *classes* inside *modules* of the **lotto package** are used to handle the program.
 
-* **`NumbersForExtraction`** (Class)
-
-    it represents a series of numbers which are generated and stored inside an Extraction object.
-
-* **`Extraction`** (Class)
-
-    it represents a full extraction. It uses a dictionary inside its `extraction` attribute in order to store all numbers' sequences.
-
-
-New methods are added to the *business logic* Class called **`LottoManager`**:
-- `check_extraction` method is used to show a full extraction table.
-- `is_ticket_winning` method is used to check tickets' numbers against the extraction table, based on a specific city choice.
-- `check_results` method is used to show the final ticket result by printing the ticket again and showing the specific extraction
-which is relevant in order to establish the result and the winning/losing message.
-
-The previous methods are invoked together in the __str__ method of a `LottoManager` object.
+- **`BetType`**, **`City`**, **`NumbersForTicket`** and **`Money`** represent the
+objects upon which a **`Ticket`** instance is created.<br>
+All these classes have their own validation methods.
+- **`FullRuota`** and **`Numbers for Extraction`** represent the objects upon which
+an **`Extraction`** instance is created.
+- **`Prizes`** is the class used to compute prizes of winning tickets based on payout
+tables (its class attributes) and a static method which calculates the actual net win
+by analyzing a dictionary of winning combinations.
+- **`LottoManager`** includes the *business logic* of the program and uses a series
+of static and instance methods in order to build tickets, show the extraction table,
+compute winning combinations and display final results with eventual wins.<br>
+An instance of this class will have as attributes: a series of Ticket objects (1 to 5) and one 
+Extraction object. Both of them will contain all relevant information to make the game work.<br>
+When a `LottoManager` instance gets printed in the *entrypoint* script, the game starts.
 
 
 ### Output
-After launching the script, the program will start constructing each ticket by asking the user all the information about each ticket
-(as in Level 1).<br>
-After printing each ticket, the program will ask to show the full extraction table.<br>
+After launching the script, the program will start constructing each ticket by asking the user to enter all information
+ about each ticket.<br>
+After printing tickets, the program will ask to show the full extraction table.<br>
 After showing the extraction table, the program will ask to check tickets' results. Tickets will be printed again and their city's
-extraction numbers will be shown below them in order to easily check the result. A result message will also be shown.
+extraction numbers will be shown below them for an easy check.<br>
+A result message will appear for each ticket.<br>
+For winning tickets, net wins and winning combinations will also be shown.
 
-Output samples (new layouts in Level 2):
-
-*Lotto Ticket*
-
-![Lotto bill](docs/lotto-ticket-sample.JPG)
-
-*Lotto Extraction*
-
-![Lotto bill](docs/lotto-extraction-sample.JPG)
-
-*Lotto Ticket Result: LOST*
-
-![Lotto bill](docs/lotto-lost-sample.JPG)
-
-*Lotto Ticket Result: WIN*
-
-![Lotto bill](docs/lotto-winning-sample.JPG)
