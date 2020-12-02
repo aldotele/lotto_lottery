@@ -65,3 +65,13 @@ extraction numbers will be shown below them for an easy check.<br>
 A result message will appear for each ticket.<br>
 For winning tickets, net wins and winning combinations will also be shown.
 
+##### Output samples
+
+*Extraction sample*
+
+![Lotto extraction](docs/extraction-sample.JPG)
+
+*Winning Ticket sample*
+
+![Lotto winning ticket](docs/winning-ticket-sample.JPG)
+
