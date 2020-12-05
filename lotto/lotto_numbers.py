@@ -2,6 +2,7 @@ import random
 
 from lotto.lotto_bet import BetType
 
+
 class FullRuota:
     """
     represents a starting "Ruota" with all numbers 1-90
@@ -22,17 +23,13 @@ class NumbersForTicket:
     @attr bet_code is by default 1 (ambata) but can be specified in order to differentiate allowed amounts
     @attr numbers will store the given amount of numbers, which is generated randomly, but can also be specified
     """
-    def __init__(self, amount, numbers='', bet_code=1):
+    def __init__(self, amount, bet_code=1):
         self.numbers = []
         if NumbersForTicket.is_amount_valid(amount, bet_code):
             # if numbers are not specified, they are randomly generated from a full ruota
-            if not numbers:
-                from_ruota = FullRuota()
-                for i in range(amount):
-                    self.numbers.append(from_ruota.numbers.pop())
-            # otherwise the numbers will be the ones specified in the sequence
-            else:
-                self.numbers = numbers
+            from_ruota = FullRuota()
+            for i in range(amount):
+                self.numbers.append(from_ruota.numbers.pop())
         else:
             return None
 
