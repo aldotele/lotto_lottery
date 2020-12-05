@@ -1,4 +1,8 @@
+from lotto.lotto_numbers import NumbersForTicket
+from lotto.lotto_bet import BetType
+from lotto.lotto_city import City
 from lotto.lotto_ticket import Ticket
+from lotto.lotto_money import Money
 
 
 class Prizes:
@@ -68,25 +72,26 @@ class Prizes:
 # TESTS
 if __name__ == '__main__':
     # 8 numbers on terno Roma, 2€, 5 matching numbers
-    ticket1 = Ticket(numbers_amount=8, bet_type=3, city=8, money=2)
+    ticket1 = Ticket(NumbersForTicket(8), BetType(3), City(8), Money(2))
     combs1 = {'Roma': [3, 19, 45, 66, 88]}
     print('ticket 1 prize: € {}'.format(Prizes.compute_payout(ticket1, combs1)))
     # 10 numbers on quaterna Napoli, 1€, 5 matching numbers
-    ticket2 = Ticket(numbers_amount=10, bet_type=4, city=6, money=1)
+    ticket2 = Ticket(NumbersForTicket(10), BetType(4), City(6), Money(1))
     combs2 = {'Napoli': [7, 15, 66, 78, 90]}
     print('ticket 2 prize: € {}'.format(Prizes.compute_payout(ticket2, combs2)))
     # 4 numbers on ambo Torino, 2€, 3 matching numbers
-    ticket3 = Ticket(numbers_amount=4, bet_type=2, city=9, money=2)
+    ticket3 = Ticket(NumbersForTicket(4), BetType(2), City(9), Money(2))
     combs3 = {'Torino': [15, 65, 72]}
     print('ticket 3 prize: € {}'.format(Prizes.compute_payout(ticket3, combs3)))
     # 10 numbers on ambata Tutte, 3€, 7 matching numbers
-    ticket4 = Ticket(numbers_amount=10, bet_type=1, city=11, money=3)
+    ticket4 = Ticket(NumbersForTicket(10), BetType(1), City(11), Money(3))
     combs4 = {'Napoli': [3], 'Milano': [79], 'Roma': [55, 81], 'Firenze': [13, 46, 88]}
     print('ticket 4 prize: € {}'.format(Prizes.compute_payout(ticket4, combs4)))
     # 5 numbers on cinquina Bari, 1€, 5 matching numbers
-    ticket5 = Ticket(numbers_amount=5, bet_type=5, city=1, money=1)
+    ticket5 = Ticket(NumbersForTicket(5), BetType(5), City(1), Money(1))
     combs5 = {'Napoli': [10, 21, 35, 66, 70]}
     print('ticket 5 prize: € {}'.format(Prizes.compute_payout(ticket5, combs5)))
+
 
 
 

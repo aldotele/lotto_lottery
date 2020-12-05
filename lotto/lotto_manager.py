@@ -16,6 +16,7 @@ class LottoManager:
     @attr tickets is a list with a series of Ticket objects (even one only)
     @attr extraction is an extraction object
     """
+
     def __init__(self, tickets_amount):
         self.tickets = []
         for t in range(1, tickets_amount + 1):
@@ -37,14 +38,16 @@ class LottoManager:
         city = LottoManager.choose_city()
         print()
         # the amount of numbers that a player can place will depend on the chosen bet
-        amount = LottoManager.choose_amount(bet)    
+        amount = LottoManager.choose_amount(bet)
         print()
         numbers = LottoManager.choose_numbers(amount)
         print()
         money = LottoManager.choose_money()
-    
+
         # TICKET CREATION ATTEMPT
-        ticket_to_confirm = Ticket(amount, bet, city, money, numbers)
+        # ---
+        ticket_to_confirm = Ticket(numbers, bet, city, money)  # arguments passed are objects
+        # ---
         print()
         # checking confirmation: if ticket is confirmed, it is also created
         # otherwise the process will restart by asking again all ticket info 
@@ -56,7 +59,7 @@ class LottoManager:
             # using recursion to restart the ticket creation. Note that the return is necessary
             return LottoManager.ticket_creator(t)
 
-    @staticmethod   
+    @staticmethod
     def choose_bet():
         print('*** BET CHOICE ***')
         print()
@@ -65,10 +68,10 @@ class LottoManager:
         while True:
             if BetType.is_bet_valid(bet):
                 bet = int(bet)
-                return bet
+                return BetType(bet)
             else:
                 bet = input('Enter a number: ')
-    
+
     @staticmethod
     def choose_city():
         print('*** CITY CHOICE ***')
@@ -78,7 +81,9 @@ class LottoManager:
         while True:
             if City.is_city_valid(city):
                 city = int(city)
-                return city
+                # ---
+                return City(city)
+                # ---
             else:
                 city = input('Enter a number: ')
 
@@ -87,10 +92,14 @@ class LottoManager:
         print('*** NUMBERS CHOICE ***')
         print()
         print('Choose an amount of numbers to place:')
-        NumbersForTicket.show_allowed_amounts(bet)
+        # ---
+        NumbersForTicket.show_allowed_amounts(bet.min_numbers)
+        # ---
         amount = input('\nHow many numbers? ')
         while True:
-            if NumbersForTicket.is_amount_valid(amount, bet):
+            # ---
+            if NumbersForTicket.is_amount_valid(amount, bet.min_numbers):
+                # ---
                 amount = int(amount)
                 return amount
             else:
@@ -100,18 +109,21 @@ class LottoManager:
     def choose_numbers(amount):
         # the method is used to generate random sequences of numbers until the user chooses the one he likes
         print('generating your {} numbers ...'.format(amount))
-        random_numbers = NumbersForTicket(amount).numbers
+        # ---
+        random_numbers = NumbersForTicket(amount)
         while True:
-            print('numbers: {}'.format(random_numbers))
+            # ---
+            print('numbers: {}'.format(random_numbers.numbers))
             print()
             check_confirmation = input('Do you like the above numbers?\n1 - Confirm\n0 - Regenerate\nType here: ')
             if check_confirmation == '1':
                 return random_numbers
-                
+
             elif check_confirmation == '0':
                 print()
                 print('generating your {} numbers ...'.format(amount))
-                random_numbers = NumbersForTicket(amount).numbers
+                # ---
+                random_numbers = NumbersForTicket(amount)
 
     @staticmethod
     def choose_money():
@@ -119,8 +131,9 @@ class LottoManager:
         amount = input('place amount of euro: ')
         while True:
             if Money.is_amount_valid(amount):
-                amount = int(amount)
-                return amount
+                amount = float(amount)
+                # ---
+                return Money(amount)
             else:
                 amount = input('place amount of euro: ')
 
@@ -135,7 +148,7 @@ class LottoManager:
         print('placed NUMBERS: {}'.format(ticket.numbers.numbers))
         print('BET type: {}'.format(ticket.bet_type.bet_type))
         print('CITY: {}'.format(ticket.city.city))
-        print('MONEY bet: € {}'.format(ticket.money.amount))
+        print('MONEY bet: € %.2f' % ticket.money.amount)
 
         while True:
             print()
@@ -161,7 +174,7 @@ class LottoManager:
             print_ticket(ticket, ticket_number)
             print('Good Luck :)')
 
-    @staticmethod      
+    @staticmethod
     def check_extraction(extraction):
         """
         it displays the full extraction table
@@ -198,7 +211,7 @@ class LottoManager:
             # LOSING TICKET: no winning combinations
             else:
                 return None
-    
+
         elif city == 'Tutte':
             matching_combinations = {}
             for city_extraction in extraction.extraction:
@@ -262,7 +275,7 @@ class LottoManager:
         self.show_results()
         return ''
 
-    
+
 if __name__ == '__main__':
     lotto_game = LottoManager(2)
     print(lotto_game)
