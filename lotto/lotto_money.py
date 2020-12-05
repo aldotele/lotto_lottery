@@ -12,7 +12,7 @@ class Money:
     @staticmethod
     def is_amount_valid(amount):
         try:
-            amount = int(amount)
+            amount = float(amount)
             if 1 <= amount <= 200:
                 return True
             else:
