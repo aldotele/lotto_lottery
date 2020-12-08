@@ -4,10 +4,10 @@ class Money:
     """
     def __init__(self, amount):
         if Money.is_amount_valid(amount):
+            amount = float(amount)
             self.amount = amount
         else:
             return None
-
 
     @staticmethod
     def is_amount_valid(amount):
