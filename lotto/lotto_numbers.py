@@ -46,10 +46,8 @@ class NumbersForTicket:
             try:
                 amount = int(amount)
                 if not bet_code <= amount <= 10:
-                    print('NOT VALID: you are allowed to place from {} to 10 numbers.'.format(bet_code))
                     return False
             except:
-                print('NOT VALID: amount of numbers must be an integer.')
                 return False
 
         return True
@@ -79,9 +77,5 @@ class NumbersForExtraction:
             self.numbers.append(from_ruota.numbers.pop())
 
 
-if __name__ == '__main__':
-    NumbersForTicket(amount=11)  # not valid amount
-    NumbersForTicket(amount=3, bet_code=6)  # not valid bet code
-    NumbersForTicket(amount=3, bet_code=4)  # not valid amount (3) for bet type (quaterna)
-    NumbersForTicket(amount=5, bet_code=5)  # valid: 5 numbers placed for a cinquina
+
 

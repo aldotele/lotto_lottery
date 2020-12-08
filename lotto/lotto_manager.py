@@ -45,9 +45,7 @@ class LottoManager:
         money = LottoManager.choose_money()
 
         # TICKET CREATION ATTEMPT
-        # ---
         ticket_to_confirm = Ticket(numbers, bet, city, money)  # arguments passed are objects
-        # ---
         print()
         # checking confirmation: if ticket is confirmed, it is also created
         # otherwise the process will restart by asking again all ticket info 
@@ -70,6 +68,7 @@ class LottoManager:
                 bet = int(bet)
                 return BetType(bet)
             else:
+                print('NOT VALID: bet must be a number between 1 and 5.')
                 bet = input('Enter a number: ')
 
     @staticmethod
@@ -81,10 +80,9 @@ class LottoManager:
         while True:
             if City.is_city_valid(city):
                 city = int(city)
-                # ---
                 return City(city)
-                # ---
             else:
+                print('NOT VALID: city must be a number between 1 and 11.')
                 city = input('Enter a number: ')
 
     @staticmethod
@@ -92,27 +90,22 @@ class LottoManager:
         print('*** NUMBERS CHOICE ***')
         print()
         print('Choose an amount of numbers to place:')
-        # ---
         NumbersForTicket.show_allowed_amounts(bet.min_numbers)
-        # ---
         amount = input('\nHow many numbers? ')
         while True:
-            # ---
             if NumbersForTicket.is_amount_valid(amount, bet.min_numbers):
-                # ---
                 amount = int(amount)
                 return amount
             else:
+                print('NOT VALID: you are allowed to place from {} to 10 numbers.'.format(bet.min_numbers))
                 amount = input('How many numbers? ')
 
     @staticmethod
     def choose_numbers(amount):
         # the method is used to generate random sequences of numbers until the user chooses the one he likes
         print('generating your {} numbers ...'.format(amount))
-        # ---
         random_numbers = NumbersForTicket(amount)
         while True:
-            # ---
             print('numbers: {}'.format(random_numbers.numbers))
             print()
             check_confirmation = input('Do you like the above numbers?\n1 - Confirm\n0 - Regenerate\nType here: ')
@@ -122,7 +115,6 @@ class LottoManager:
             elif check_confirmation == '0':
                 print()
                 print('generating your {} numbers ...'.format(amount))
-                # ---
                 random_numbers = NumbersForTicket(amount)
 
     @staticmethod
@@ -132,9 +124,9 @@ class LottoManager:
         while True:
             if Money.is_amount_valid(amount):
                 amount = float(amount)
-                # ---
                 return Money(amount)
             else:
+                print('NOT VALID: amount of € must be between 1 and 200.')
                 amount = input('place amount of euro: ')
 
     @staticmethod

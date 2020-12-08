@@ -22,10 +22,8 @@ class BetType:
             if bet_code in BetType.all_bets:
                 return True
             else:
-                print('NOT VALID: bet must be a number between 1 and 5.')
                 return False
         except:
-            print('NOT VALID: bet must be a number, not a string.')
             return False
 
 
@@ -39,13 +37,3 @@ class BetType:
             if amount >= key:
                 print('{} : {}'.format(key, BetType.all_bets[key]))
 
-
-# tests
-if __name__ == '__main__':
-    mybet = BetType('terno')  # not valid
-    mybet = BetType(6)  # not valid
-    mybet = BetType('3')  # valid because it will be converted into an integer
-    mybet = BetType(3)  # valid
-    print(mybet.bet_type)
-    print('minimum numbers to place: {}'.format(mybet.min_numbers))
-    BetType.print_allowed_bets(4)

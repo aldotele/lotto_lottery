@@ -21,10 +21,8 @@ class City:
             if city_code in City.all_cities:
                 return True
             else:
-                print('NOT VALID: city must be a number between 1 and 11.')
                 return False
         except:
-            print('NOT VALID: city must be a number, not a string.')
             return False
 
 
@@ -33,12 +31,3 @@ class City:
         for key in City.all_cities:
             print('{} : {}'.format(key, City.all_cities[key]))
 
-
-# tests
-if __name__ == '__main__':
-    mycity = City(12)  # not valid
-    mycity = City('napoli')  # not valid
-    mycity = City('11')  # valid because it will be converted into an integer
-    print(mycity.city)
-    mycity = City(6)
-    print(mycity.city)
