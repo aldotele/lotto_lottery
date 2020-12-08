@@ -1,5 +1,5 @@
 from lotto.lotto_numbers import NumbersForTicket
-from lotto.lotto_bet import BetType
+from lotto.lotto_bet import Bet
 from lotto.lotto_city import City
 from lotto.lotto_ticket import Ticket
 from lotto.lotto_money import Money
@@ -45,8 +45,8 @@ class Prizes:
         :return: the net win (post 8% taxes) of a winning ticket
         """
         # the net win will firstly depend on the amount of numbers that were placed
-        amount_of_numbers = len(ticket.numbers.numbers)
-        bet_code = ticket.bet_type.min_numbers
+        amount_of_numbers = len(ticket.numbers.sequence)
+        bet_code = ticket.bet.min_numbers
         money = ticket.money.amount
         gross_payout = 0
         for city in winning_combinations:
@@ -56,7 +56,7 @@ class Prizes:
             gross_payout += base_prize * mol_factor
 
         # if the bet was on "Tutte", payout gets divided by 10
-        if ticket.city.city == 'Tutte':
+        if ticket.city.name == 'Tutte':
             gross_payout = gross_payout / 10
 
         taxes = 0.08 * gross_payout
@@ -72,23 +72,23 @@ class Prizes:
 # TESTS
 if __name__ == '__main__':
     # 8 numbers on terno Roma, 2€, 5 matching numbers
-    ticket1 = Ticket(NumbersForTicket(8), BetType(3), City(8), Money(2))
+    ticket1 = Ticket(NumbersForTicket(8), Bet(3), City(8), Money(2))
     combs1 = {'Roma': [3, 19, 45, 66, 88]}
     print('ticket 1 prize: € {}'.format(Prizes.compute_payout(ticket1, combs1)))
     # 10 numbers on quaterna Napoli, 1€, 5 matching numbers
-    ticket2 = Ticket(NumbersForTicket(10), BetType(4), City(6), Money(1))
+    ticket2 = Ticket(NumbersForTicket(10), Bet(4), City(6), Money(1))
     combs2 = {'Napoli': [7, 15, 66, 78, 90]}
     print('ticket 2 prize: € {}'.format(Prizes.compute_payout(ticket2, combs2)))
     # 4 numbers on ambo Torino, 2€, 3 matching numbers
-    ticket3 = Ticket(NumbersForTicket(4), BetType(2), City(9), Money(2))
+    ticket3 = Ticket(NumbersForTicket(4), Bet(2), City(9), Money(2))
     combs3 = {'Torino': [15, 65, 72]}
     print('ticket 3 prize: € {}'.format(Prizes.compute_payout(ticket3, combs3)))
     # 10 numbers on ambata Tutte, 3€, 7 matching numbers
-    ticket4 = Ticket(NumbersForTicket(10), BetType(1), City(11), Money(3))
+    ticket4 = Ticket(NumbersForTicket(10), Bet(1), City(11), Money(3))
     combs4 = {'Napoli': [3], 'Milano': [79], 'Roma': [55, 81], 'Firenze': [13, 46, 88]}
     print('ticket 4 prize: € {}'.format(Prizes.compute_payout(ticket4, combs4)))
     # 5 numbers on cinquina Bari, 1€, 5 matching numbers
-    ticket5 = Ticket(NumbersForTicket(5), BetType(5), City(1), Money(1))
+    ticket5 = Ticket(NumbersForTicket(5), Bet(5), City(1), Money(1))
     combs5 = {'Napoli': [10, 21, 35, 66, 70]}
     print('ticket 5 prize: € {}'.format(Prizes.compute_payout(ticket5, combs5)))
 

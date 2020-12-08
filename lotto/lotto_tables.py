@@ -36,8 +36,8 @@ def print_ticket(ticket, ticket_n=' ', width=50):
     print_beam(width)
 
     # BET-CITY ROW
-    bet = ticket.bet_type.bet_type
-    city = ticket.city.city
+    bet = ticket.bet.name
+    city = ticket.city.name
     bet_city_string = '{} on {}'.format(bet, city)
     if len(bet_city_string) % 2 != 0:
         bet_city_string += ' '
@@ -46,7 +46,7 @@ def print_ticket(ticket, ticket_n=' ', width=50):
     print('|' + ' '*(width-2) + '|')
 
     # NUMBERS ROW
-    numbers = ticket.numbers.numbers
+    numbers = ticket.numbers.sequence
     str_sequence = [str(n) for n in numbers]
     numbers_string = ' '.join(str_sequence)
     if len(numbers_string) % 2 != 0:

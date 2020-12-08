@@ -1,6 +1,6 @@
 import random 
 
-from lotto.lotto_bet import BetType
+from lotto.lotto_bet import Bet
 
 
 class FullRuota:
@@ -18,31 +18,32 @@ class FullRuota:
 
 class NumbersForTicket:
     """
-    represents the series of numbers inside a ticket
-    @attr amount is the amount of numbers to place. It cannot be less than 1 or more than 10
-    @attr bet_code is by default 1 (ambata) but can be specified in order to differentiate allowed amounts
-    @attr numbers will store the given amount of numbers, which is generated randomly, but can also be specified
+    represents the sequence of numbers inside a ticket
+    :param amount is the amount of numbers to place. It cannot be less than 1 or more than 10
+    :param bet_code is by default 1 (ambata) but can be specified in order to differentiate allowed amounts
+    @attr sequence will store the series of numbers in a list, and they are generated randomly
     """
     def __init__(self, amount, bet_code=1):
-        self.numbers = []
+        self.sequence = []
         if NumbersForTicket.is_amount_valid(amount, bet_code):
-            # if numbers are not specified, they are randomly generated from a full ruota
+            # numbers are randomly generated using a full ruota
             from_ruota = FullRuota()
             for i in range(amount):
-                self.numbers.append(from_ruota.numbers.pop())
+                self.sequence.append(from_ruota.numbers.pop())
         else:
             return None
-
 
     @staticmethod
     def is_amount_valid(amount, bet_code=1):
         """
-        it validates the amount which may depend on the bet type (if specified)
+        validates the amount which may depend on the bet type (if specified)
+        the amount can never be less than 1 or more than 10
+        if a bet code is specified, the amount has to be at least equal to the bet code (e.g. 3 numbers for a terno)
         :param amount: the amount of numbers to place
         :param bet_code: if specified, it allows to validate the placed amount. By default is 1 (ambata)
-        :return: boolean True or False
+        :return: boolean
         """
-        if BetType.is_bet_valid(bet_code):
+        if Bet.is_bet_valid(bet_code):
             try:
                 amount = int(amount)
                 if not bet_code <= amount <= 10:
@@ -52,14 +53,13 @@ class NumbersForTicket:
 
         return True
 
-
     @staticmethod
     def show_allowed_amounts(bet_code=1):
         """
         it displays a sequence of allowed amounts, which may depend on the bet type (when specified)
         :param bet_code: if specified, it differentiates the sequence of allowed amounts
         """
-        if BetType.is_bet_valid(bet_code):
+        if Bet.is_bet_valid(bet_code):
             for n in range(bet_code, 11):
                 print(n, end='  ')
         else:
@@ -69,12 +69,13 @@ class NumbersForTicket:
 class NumbersForExtraction:
     """
     represents 5 extracted numbers
+    @attr sequence will store in a list the 5 extracted numbers
     """      
     def __init__(self):
-        self.numbers = []
+        self.sequence = []
         from_ruota = FullRuota()
         for i in range(5):
-            self.numbers.append(from_ruota.numbers.pop())
+            self.sequence.append(from_ruota.numbers.pop())
 
 
 
