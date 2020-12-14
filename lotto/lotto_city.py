@@ -13,7 +13,7 @@ class City:
             self.name = City.all_cities[city_code]
             self.id = city_code
         else:
-            return None
+            raise ValueError('city code must be an integer between 1 and 11')
 
     @staticmethod
     def is_city_valid(city_code):

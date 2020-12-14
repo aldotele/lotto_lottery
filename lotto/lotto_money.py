@@ -7,7 +7,7 @@ class Money:
             amount = float(amount)
             self.amount = amount
         else:
-            return None
+            raise ValueError('amount must be an integer between 1 and 200')
 
     @staticmethod
     def is_amount_valid(amount):

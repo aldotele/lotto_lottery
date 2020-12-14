@@ -20,50 +20,53 @@ class NumbersForTicket:
     """
     represents the sequence of numbers inside a ticket
     :param amount is the amount of numbers to place. It cannot be less than 1 or more than 10
-    :param bet_code is by default 1 (ambata) but can be specified in order to differentiate allowed amounts
+    :param bet is a Bet object which is passed by default 1 (ambata)
     @attr sequence will store the series of numbers in a list, and they are generated randomly
     """
-    def __init__(self, amount, bet_code=1):
+    def __init__(self, amount, bet=Bet(1)):
         self.sequence = []
-        if NumbersForTicket.is_amount_valid(amount, bet_code):
+        if NumbersForTicket.is_amount_valid(amount, bet):
             # numbers are randomly generated using a full ruota
             from_ruota = FullRuota()
-            for i in range(amount):
+            for i in range(int(amount)):
                 self.sequence.append(from_ruota.numbers.pop())
         else:
-            return None
+            raise ValueError('amount of numbers to generate is not valid.')
 
     @staticmethod
-    def is_amount_valid(amount, bet_code=1):
+    def is_amount_valid(amount, bet=Bet(1)):
         """
-        validates the amount which may depend on the bet type (if specified)
-        the amount can never be less than 1 or more than 10
-        if a bet code is specified, the amount has to be at least equal to the bet code (e.g. 3 numbers for a terno)
-        :param amount: the amount of numbers to place
-        :param bet_code: if specified, it allows to validate the placed amount. By default is 1 (ambata)
+        validates the amount and validaton may depend on the bet object (if specified):
+        the amount can never be less than 1 or more than 10, but
+        if a bet object is passed, the amount has to be at least equal to its bet code (e.g. 3 numbers for a terno)
+        :param amount: integer representing the amount of numbers to place
+        :param bet: An object which allows to validate the placed amount. By default is passed code 1 (ambata)
         :return: boolean
         """
-        if Bet.is_bet_valid(bet_code):
-            try:
-                amount = int(amount)
-                if not bet_code <= amount <= 10:
-                    return False
-            except:
+        if not isinstance(bet, Bet):
+            raise ValueError('a valid Bet object must be passed.')
+
+        try:
+            amount = int(amount)
+            if not bet.min_numbers <= amount <= 10:
                 return False
+        except:
+            return False
 
         return True
 
     @staticmethod
-    def show_allowed_amounts(bet_code=1):
+    def show_allowed_amounts(bet=Bet(1)):
         """
         it displays a sequence of allowed amounts, which may depend on the bet type (when specified)
-        :param bet_code: if specified, it differentiates the sequence of allowed amounts
+        if bet object is not specified, it is passed 1 by default, then the sequence will always be 1 to 10
+        :param bet: if specified, it customizes the sequence of allowed amounts. By default is passed code 1 (ambata)
         """
-        if Bet.is_bet_valid(bet_code):
-            for n in range(bet_code, 11):
-                print(n, end='  ')
-        else:
-            print('NOT VALID: bet code must be between 1 (ambata) and 5 (cinquina).')
+        if not isinstance(bet, Bet):
+            raise ValueError('argument must be a valid Bet object')
+
+        for n in range(bet.min_numbers, 11):
+            print(n, end='  ')
 
 
 class NumbersForExtraction:
@@ -76,6 +79,7 @@ class NumbersForExtraction:
         from_ruota = FullRuota()
         for i in range(5):
             self.sequence.append(from_ruota.numbers.pop())
+
 
 
 

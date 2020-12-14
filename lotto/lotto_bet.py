@@ -12,7 +12,7 @@ class Bet:
             self.name = Bet.all_bets[bet_code]
             self.min_numbers = bet_code
         else:
-            return None
+            raise ValueError('bet code must be an integer between 1 and 5')
 
     @staticmethod
     def is_bet_valid(bet_code):
@@ -39,4 +39,3 @@ class Bet:
         for key in Bet.all_bets:
             if amount >= key:
                 print('{} : {}'.format(key, Bet.all_bets[key]))
-
