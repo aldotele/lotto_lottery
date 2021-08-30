@@ -68,6 +68,15 @@ class NumbersForTicket:
         for n in range(bet.min_numbers, 11):
             print(n, end='  ')
 
+    @staticmethod
+    def get_allowed_amounts(bet=Bet(1)):
+        if not isinstance(bet, Bet):
+            raise ValueError('argument must be a valid Bet object')
+        amounts = []
+        for n in range(bet.min_numbers, 11):
+            amounts.append(str(n))
+        return amounts
+
 
 class NumbersForExtraction:
     """
