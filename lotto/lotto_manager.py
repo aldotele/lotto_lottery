@@ -6,6 +6,7 @@ from lotto.lotto_extraction import Extraction
 from lotto.lotto_money import Money
 from lotto.lotto_prizes import Prizes
 from lotto.lotto_tables import print_ticket
+from lotto.helper.selection import select_bet, select_city, select_amount, confirm_numbers, confirm_ticket
 
 from datetime import datetime
 
@@ -66,48 +67,20 @@ class LottoManager:
 
     @staticmethod
     def choose_bet():
-        print('*** BET CHOICE ***')
-        print()
-        Bet.show_allowed_bets()
-        bet_code = input('\nEnter a number: ')
-        while True:
-            if Bet.is_bet_valid(bet_code):
-                bet_code = int(bet_code)
-                # returning an object
-                return Bet(bet_code)
-            else:
-                print('NOT VALID: bet must be a number between 1 and 5.')
-                bet_code = input('Enter a number: ')
+        bet = select_bet()  # this will store a string
+        bet_code = Bet.bet_codes[bet]
+        return Bet(bet_code)
 
     @staticmethod
     def choose_city():
-        print('*** CITY CHOICE ***')
-        print()
-        City.show_city_list()
-        city_code = input('\nEnter a number: ')
-        while True:
-            if City.is_city_valid(city_code):
-                city_code = int(city_code)
-                # returning an object
-                return City(city_code)
-            else:
-                print('NOT VALID: city must be a number between 1 and 11.')
-                city_code = input('Enter a number: ')
+        city = select_city()  # this will store a string
+        city_code = City.city_codes[city]
+        return City(city_code)
 
     @staticmethod
     def choose_amount(bet):
-        print('*** NUMBERS CHOICE ***')
-        print()
-        print('Choose an amount of numbers to place:')
-        NumbersForTicket.show_allowed_amounts(bet)
-        amount = input('\nHow many numbers? ')
-        while True:
-            if NumbersForTicket.is_amount_valid(amount, bet):
-                amount = int(amount)
-                return amount
-            else:
-                print('NOT VALID: you are allowed to place from {} to 10 numbers.'.format(bet.min_numbers))
-                amount = input('How many numbers? ')
+        amount = select_amount(bet)
+        return amount
 
     @staticmethod
     def choose_numbers(amount):
@@ -115,14 +88,16 @@ class LottoManager:
         print('generating your {} numbers ...'.format(amount))
         random_numbers = NumbersForTicket(amount)
         while True:
-            print('numbers: {}'.format(random_numbers.sequence))
+            sequence = random_numbers.sequence
+            print('numbers: {}'.format(' '.join(map(str, sequence))))
             print()
-            check_confirmation = input('Do you like the above numbers?\n1 - Confirm\n0 - Regenerate\nType here: ')
-            if check_confirmation == '1':
+            options = ["Confirm", "Regenerate"]
+            check_confirmation = confirm_numbers(options)
+            if check_confirmation == options[0]:
                 # returning an object
                 return random_numbers
 
-            elif check_confirmation == '0':
+            elif check_confirmation == options[1]:
                 print()
                 print('generating your {} numbers ...'.format(amount))
                 random_numbers = NumbersForTicket(amount)
@@ -148,18 +123,18 @@ class LottoManager:
         otherwise the user can type 0 to restart the ticket
         """
         print('<<< Ticket {} summary >>>:'.format(t))
-        print('placed NUMBERS: {}'.format(ticket.numbers.sequence))
+        print('placed NUMBERS: {}'.format(' '.join(map(str, ticket.numbers.sequence))))
         print('BET type: {}'.format(ticket.bet.name))
         print('CITY: {}'.format(ticket.city.name))
         print('MONEY bet: € %.2f' % ticket.money.amount)
 
         while True:
             print()
-            check_confirmation = input('Do you wish to CONFIRM ticket {}?\n1 - Confirm\n0 - Rewrite\nType here: '
-                                       .format(t))
-            if check_confirmation == '1':
+            options = ["Confirm", "Rewrite"]
+            check_confirmation = confirm_ticket(options, t)
+            if check_confirmation == options[0]:
                 return True
-            elif check_confirmation == '0':
+            elif check_confirmation == options[1]:
                 return False
 
     @staticmethod
